@@ -18,4 +18,17 @@ public class HotelBranch {
     private Point location;
 
     private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_chain_id")
+    private HotelChain hotelChain;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_branch_type_id")
+    private HotelBranchType hotelBranchType;
+
+    @OneToOne
+    @JoinColumn(name = "hotel_branch_schedule_id")
+    private HotelBranchSchedule hotelBranchSchedule;
+
 }
