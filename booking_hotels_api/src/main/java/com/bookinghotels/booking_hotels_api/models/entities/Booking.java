@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.extern.java.Log;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "bookings")
@@ -22,4 +23,11 @@ public class Booking {
 
     @Column(name = "is_paid")
     private boolean isPaid;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne(mappedBy = "booking")
+    private Invoice invoice;
 }

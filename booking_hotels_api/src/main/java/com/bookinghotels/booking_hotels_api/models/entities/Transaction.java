@@ -16,4 +16,8 @@ public class Transaction {
     private float amount;
 
     private LocalDateTime payment_date_time;
+
+    @OneToOne
+    @JoinColumn(name = "invoice_id")
+    private Invoice invoice;
 }

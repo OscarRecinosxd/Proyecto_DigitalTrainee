@@ -28,7 +28,7 @@ public class HotelBranch {
     private HotelBranchType hotelBranchType;
 
     @OneToOne
-    @JoinColumn(name = "hotel_branch_schedule_id")
+    @JoinColumn(name = "schedule_id")
     private HotelBranchSchedule hotelBranchSchedule;
 
 }

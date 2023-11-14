@@ -13,11 +13,12 @@ public class HotelBranchSchedule {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    private String description;
+
     @OneToOne(mappedBy = "hotelBranchSchedule")
     private HotelBranch hotelBranch;
 
-    @OneToMany
-    
+    @OneToMany(mappedBy = "hotelBranchScheduleId")
     private List<ScheduleDay> scheduleDays;
 
 }

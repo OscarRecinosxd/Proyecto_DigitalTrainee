@@ -23,5 +23,6 @@ public class ScheduleDay {
     private LocalTime closesTime;
 
     @ManyToOne
+    @JoinColumn(name = "schedule_id")
     private HotelBranchSchedule hotelBranchScheduleId;
 }

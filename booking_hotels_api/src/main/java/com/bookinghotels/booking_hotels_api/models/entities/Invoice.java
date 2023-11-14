@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "invoices")
@@ -19,4 +20,14 @@ public class Invoice {
 
     @Column(name = "issue_date")
     private LocalDateTime issueDate;
+
+    @OneToMany(mappedBy = "mainIvoice")
+    private List<InvoiceItem> invoiceItems;
+
+    @OneToOne(mappedBy = "invoice")
+    private Transaction transaction;
+
+    @OneToOne
+    private Booking booking;
+
 }

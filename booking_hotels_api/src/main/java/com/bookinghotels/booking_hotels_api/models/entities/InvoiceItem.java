@@ -16,4 +16,8 @@ public class InvoiceItem {
     private float amount;
 
     private int quantity;
+
+    @ManyToOne
+    @JoinColumn(name = "invoice_id")
+    private Invoice mainIvoice;
 }
