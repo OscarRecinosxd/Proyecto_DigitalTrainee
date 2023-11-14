@@ -30,4 +30,13 @@ public class Booking {
 
     @OneToOne(mappedBy = "booking")
     private Invoice invoice;
+
+    @ManyToMany
+    @JoinTable(
+            name = "bookingsxrooms",
+            joinColumns = @JoinColumn(name = "booking_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_id")
+    )
+    private List<Room> rooms;
+
 }

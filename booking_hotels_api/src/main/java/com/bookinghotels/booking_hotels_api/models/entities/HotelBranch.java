@@ -5,6 +5,8 @@ import lombok.Data;
 import net.postgis.jdbc.geometry.Geometry;
 import net.postgis.jdbc.geometry.Point;
 
+import java.util.List;
+
 @Entity
 @Table(name = "hotel_branches")
 @Data
@@ -30,5 +32,8 @@ public class HotelBranch {
     @OneToOne
     @JoinColumn(name = "schedule_id")
     private HotelBranchSchedule hotelBranchSchedule;
+
+    @OneToMany(mappedBy = "hotelBranch")
+    private List<Room> rooms;
 
 }

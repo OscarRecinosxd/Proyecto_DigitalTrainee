@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "rooms")
@@ -25,4 +26,15 @@ public class Room {
     private int capacity;
 
     private float price;
+
+    @ManyToOne
+    @JoinColumn(name = "room_type_id")
+    private RoomType roomType;
+
+    @ManyToOne
+    @JoinColumn(name = "hotel_branch_id")
+    private HotelBranch hotelBranch;
+
+    @ManyToMany(mappedBy = "rooms")
+    private List<Booking> bookings;
 }
