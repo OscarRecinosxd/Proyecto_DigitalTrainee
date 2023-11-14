@@ -26,7 +26,7 @@ public class User {
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "id_role")
+    @JoinColumn(name = "role_id")
     private Role userRole;
 
     @OneToMany(mappedBy = "user")
