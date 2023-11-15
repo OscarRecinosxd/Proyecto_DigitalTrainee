@@ -32,8 +32,7 @@ public class HotelBranch {
     @JoinColumn(name = "hotel_branch_type_id")
     private HotelBranchType hotelBranchType;
 
-    @OneToOne
-    @JoinColumn(name = "schedule_id")
+    @OneToOne(mappedBy = "hotelBranch")
     private HotelBranchSchedule hotelBranchSchedule;
 
     @OneToMany(mappedBy = "hotelBranch")
