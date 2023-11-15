@@ -22,6 +22,9 @@ public class ScheduleDay {
     @Column(name = "closes_Time")
     private LocalTime closesTime;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(name = "schedule_id")
     private HotelBranchSchedule hotelBranchScheduleId;

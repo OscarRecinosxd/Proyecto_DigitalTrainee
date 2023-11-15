@@ -17,6 +17,9 @@ public class InvoiceItem {
 
     private int quantity;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(name = "invoice_id")
     private Invoice mainIvoice;

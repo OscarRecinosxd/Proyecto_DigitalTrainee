@@ -15,6 +15,9 @@ public class HotelBranchSchedule {
 
     private String description;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @OneToOne(mappedBy = "hotelBranchSchedule")
     private HotelBranch hotelBranch;
 

@@ -27,6 +27,9 @@ public class Room {
 
     private float price;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(name = "room_type_id")
     private RoomType roomType;

@@ -21,6 +21,9 @@ public class Invoice {
     @Column(name = "issue_date")
     private LocalDateTime issueDate;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @OneToMany(mappedBy = "mainIvoice")
     private List<InvoiceItem> invoiceItems;
 

@@ -1,4 +1,4 @@
-package com.bookinghotels.booking_hotels_api.models.entities;
+package com.bookinghotels.booking_hotels_api.models.enums;
 
 public enum DAYS {
     MONDAY,

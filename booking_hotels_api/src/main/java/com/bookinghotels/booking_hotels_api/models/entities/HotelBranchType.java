@@ -17,6 +17,9 @@ public class HotelBranchType{
 
     private String description;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @OneToMany(mappedBy = "hotelBranchType")
     private List<HotelBranch> hotel_branches;
 }

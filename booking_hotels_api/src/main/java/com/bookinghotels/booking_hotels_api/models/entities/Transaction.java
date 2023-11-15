@@ -17,6 +17,9 @@ public class Transaction {
 
     private LocalDateTime payment_date_time;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @OneToOne
     @JoinColumn(name = "invoice_id")
     private Invoice invoice;

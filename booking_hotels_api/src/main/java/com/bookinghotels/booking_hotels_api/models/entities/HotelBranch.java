@@ -21,6 +21,9 @@ public class HotelBranch {
 
     private String address;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(name = "hotel_chain_id")
     private HotelChain hotelChain;

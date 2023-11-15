@@ -15,6 +15,9 @@ public class RoomType {
 
     private String description;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @OneToMany(mappedBy = "roomType")
     private List<Room> rooms;
 }

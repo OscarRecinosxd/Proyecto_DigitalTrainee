@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -25,8 +26,12 @@ public class User {
 
     private String phone;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
+    @JsonIgnoreProperties("users")
     private Role userRole;
 
     @OneToMany(mappedBy = "user")
