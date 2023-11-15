@@ -18,7 +18,8 @@ public class HotelBranchSchedule {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    @OneToOne(mappedBy = "hotelBranchSchedule")
+    @OneToOne
+    @JoinColumn(name = "hotel_branch_id")
     private HotelBranch hotelBranch;
 
     @OneToMany(mappedBy = "hotelBranchScheduleId")
