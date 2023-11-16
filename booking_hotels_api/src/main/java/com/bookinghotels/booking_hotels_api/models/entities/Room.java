@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -33,12 +34,15 @@ public class Room {
 
     @ManyToOne
     @JoinColumn(name = "room_type_id")
+    @JsonIgnore
     private RoomType roomType;
 
     @ManyToOne
     @JoinColumn(name = "hotel_branch_id")
+    @JsonIgnore
     private HotelBranch hotelBranch;
 
     @ManyToMany(mappedBy = "rooms")
+    @JsonIgnore
     private List<Booking> bookings;
 }

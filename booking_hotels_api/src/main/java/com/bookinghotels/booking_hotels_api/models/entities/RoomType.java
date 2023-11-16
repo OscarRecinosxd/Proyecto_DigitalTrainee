@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -20,5 +21,6 @@ public class RoomType {
     private boolean isDeleted;
 
     @OneToMany(mappedBy = "roomType")
+    @JsonIgnore
     private List<Room> rooms;
 }

@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,5 +24,6 @@ public class Transaction {
 
     @OneToOne
     @JoinColumn(name = "invoice_id")
+    @JsonIgnore
     private Invoice invoice;
 }

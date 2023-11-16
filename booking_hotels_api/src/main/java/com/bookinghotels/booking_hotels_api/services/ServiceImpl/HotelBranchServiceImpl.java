@@ -9,7 +9,10 @@ import com.bookinghotels.booking_hotels_api.repositories.HotelBranchRepository;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelBranchService;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelBranchTypeService;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelChainService;
-import net.postgis.jdbc.geometry.Point;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +36,7 @@ public class HotelBranchServiceImpl implements HotelBranchService {
     }
 
     @Override
-    public HotelBranch save(CreateHotelBranchDTO newHotelBranchDTO) {
+    public HotelBranch save(CreateHotelBranchDTO newHotelBranchDTO) throws ParseException {
         HotelBranch newHotelBranch = new HotelBranch();
         newHotelBranch.setAddress(newHotelBranchDTO.getAddress());
         newHotelBranch.setName(newHotelBranchDTO.getName());
@@ -86,11 +89,13 @@ public class HotelBranchServiceImpl implements HotelBranchService {
     }
 
     @Override
-    public Point createLocation(Double latitude, Double longitude) {
-        Point location = new Point(latitude,longitude);
-        location.srid = 4326;
-        return location;
+    public Point createLocation(Double latitude, Double longitude) throws ParseException {
+        String  location2 =  "POINT (" + latitude + " " + longitude + ")" ;
+        return ( (Point)wktToGeometry(location2));
     }
 
+    public Geometry wktToGeometry(String wellKnownText) throws ParseException {
+        return new WKTReader().read(wellKnownText);
+    }
 
 }

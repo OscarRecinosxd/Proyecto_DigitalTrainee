@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -21,5 +22,6 @@ public class Role {
     private String description;
 
     @OneToMany(mappedBy = "userRole")
+    @JsonIgnore
     private List<User> users;
 }

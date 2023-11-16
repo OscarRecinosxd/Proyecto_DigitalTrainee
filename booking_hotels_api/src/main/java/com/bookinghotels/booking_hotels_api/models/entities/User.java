@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -32,10 +33,11 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "role_id")
-    @JsonIgnoreProperties("users")
+    @JsonIgnore
     private Role userRole;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Booking> bookings;
 
 }

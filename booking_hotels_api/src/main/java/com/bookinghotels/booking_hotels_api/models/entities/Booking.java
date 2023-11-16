@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.extern.java.Log;
@@ -30,9 +31,11 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
     @OneToOne(mappedBy = "booking")
+    @JsonIgnore
     private Invoice invoice;
 
     @ManyToMany
@@ -41,6 +44,7 @@ public class Booking {
             joinColumns = @JoinColumn(name = "booking_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )
+    @JsonIgnore
     private List<Room> rooms;
 
 }

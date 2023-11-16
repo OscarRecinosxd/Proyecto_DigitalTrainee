@@ -1,10 +1,10 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
-import net.postgis.jdbc.geometry.Geometry;
-import net.postgis.jdbc.geometry.Point;
+import org.locationtech.jts.geom.Point;
 
 import java.util.List;
 
@@ -19,6 +19,7 @@ public class HotelBranch {
 
     private String  name;
 
+    @JsonIgnore
     private Point location;
 
     private String address;
@@ -33,12 +34,15 @@ public class HotelBranch {
 
     @ManyToOne
     @JoinColumn(name = "hotel_branch_type_id")
+    @JsonIgnore
     private HotelBranchType hotelBranchType;
 
     @OneToOne(mappedBy = "hotelBranch")
+    @JsonIgnore
     private HotelBranchSchedule hotelBranchSchedule;
 
     @OneToMany(mappedBy = "hotelBranch")
+    @JsonIgnore
     private List<Room> rooms;
 
 }

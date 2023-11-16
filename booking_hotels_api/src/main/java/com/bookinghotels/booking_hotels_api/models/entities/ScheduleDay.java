@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -28,5 +29,6 @@ public class ScheduleDay {
 
     @ManyToOne
     @JoinColumn(name = "schedule_id")
+    @JsonIgnore
     private HotelBranchSchedule hotelBranchScheduleId;
 }
