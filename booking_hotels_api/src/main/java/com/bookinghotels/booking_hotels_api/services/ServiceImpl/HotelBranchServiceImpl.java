@@ -9,7 +9,9 @@ import com.bookinghotels.booking_hotels_api.repositories.HotelBranchRepository;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelBranchService;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelBranchTypeService;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelChainService;
+import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
@@ -90,8 +92,11 @@ public class HotelBranchServiceImpl implements HotelBranchService {
 
     @Override
     public Point createLocation(Double latitude, Double longitude) throws ParseException {
-        String  location2 =  "POINT (" + latitude + " " + longitude + ")" ;
-        return ( (Point)wktToGeometry(location2));
+        String  location2 =  "POINT (" + longitude + " " + latitude + ")" ;
+        Geometry point = new GeometryFactory().createPoint(new Coordinate(1,1));
+        Point location = ((Point)wktToGeometry(location2));
+        location.setSRID(4326);
+        return ((Point)wktToGeometry(location2));
     }
 
     public Geometry wktToGeometry(String wellKnownText) throws ParseException {
