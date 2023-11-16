@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import net.postgis.jdbc.geometry.Geometry;
@@ -12,7 +13,8 @@ import java.util.List;
 @Data
 public class HotelBranch {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "hotel_branches_seq")
+    @SequenceGenerator(name = "hotel_branches_seq",sequenceName = "hotel_branches_seq",allocationSize = 1)
     private Long id;
 
     private String  name;
@@ -26,6 +28,7 @@ public class HotelBranch {
 
     @ManyToOne
     @JoinColumn(name = "hotel_chain_id")
+    @JsonIgnore
     private HotelChain hotelChain;
 
     @ManyToOne

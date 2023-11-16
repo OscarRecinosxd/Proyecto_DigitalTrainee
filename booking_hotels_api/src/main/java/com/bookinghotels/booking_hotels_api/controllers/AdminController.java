@@ -1,10 +1,10 @@
 package com.bookinghotels.booking_hotels_api.controllers;
 
-import com.bookinghotels.booking_hotels_api.models.dtos.CreateUpdateHotelChainDTO;
-import com.bookinghotels.booking_hotels_api.models.dtos.CreateUserDTO;
-import com.bookinghotels.booking_hotels_api.models.dtos.UpdateUserDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.*;
+import com.bookinghotels.booking_hotels_api.models.entities.HotelBranch;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
 import com.bookinghotels.booking_hotels_api.models.entities.User;
+import com.bookinghotels.booking_hotels_api.services.IService.HotelBranchService;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelChainService;
 import com.bookinghotels.booking_hotels_api.services.IService.UserService;
 import com.bookinghotels.booking_hotels_api.utils.ResponseDTO;
@@ -22,9 +22,12 @@ public class AdminController {
     @Autowired
     HotelChainService hotelChainService;
 
+    @Autowired
+    HotelBranchService hotelBranchService;
+
     @GetMapping("/users")
     public ResponseEntity<?> getUsers(){
-        return ResponseEntity.ok(new ResponseDTO<>(userService.findAll(), "Usuarios encontrados con exito"));
+        return ResponseEntity.ok(new ResponseDTO<>(userService.findAll(), "Consulta a usuarios exitosa"));
     }
 
     @GetMapping("/users/{id}")
@@ -67,7 +70,7 @@ public class AdminController {
 
     @GetMapping("/hotel-chains")
     public ResponseEntity<?> getHotelChains(){
-        return ResponseEntity.ok(new ResponseDTO<>(hotelChainService.findAll(), "Cadenas de hoteles encontrados con exito"));
+        return ResponseEntity.ok(new ResponseDTO<>(hotelChainService.findAll(), "Consulta a cadenas de hoteles exitosa"));
     }
 
     @GetMapping("/hotel-chains/{id}")
@@ -105,6 +108,50 @@ public class AdminController {
         }
         return ResponseEntity.ok().body(new ResponseDTO<>(hotelChainDeleted,"Cadena de hotel borrada con exito"));
     }
+
+
+    //--------------------------------------HOTEL BRANCH--------------------------------------
+    @GetMapping("/hotel-branches")
+    public ResponseEntity<?> getHotelBranches(){
+        return ResponseEntity.ok(new ResponseDTO<>(hotelBranchService.findAll(), "Consulta a sucursales de hoteles exitosa"));
+    }
+
+    @GetMapping("/hotel-branches/{id}")
+    public ResponseEntity<?> getHotelBranches(@PathVariable Long id){
+        HotelBranch hotelBranchFound = hotelBranchService.findById(id);
+        if(hotelBranchFound == null){
+            return ResponseEntity.status(404).body(new ResponseDTO<>(null,"No existe el hotel"));
+        }
+
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchFound,"Sucursal de hotel encontrada con exito"));
+    }
+
+    @PostMapping("/hotel-branches")
+    public ResponseEntity<?> saveHotelBranch(@RequestBody CreateHotelBranchDTO newHotelBranch){
+        HotelBranch hotelBranchCreated = hotelBranchService.save(newHotelBranch);
+
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchCreated, "Sucursal de hotel creada con exito"));
+    }
+
+    @PutMapping("/hotel-branches/{id}")
+    public ResponseEntity<?> updateHotelBranch(@PathVariable Long id, @RequestBody UpdateHotelBranchDTO updateHotelBranchDTO){
+        HotelBranch hotelBranchUpdated = hotelBranchService.updateHotelBranch(id, updateHotelBranchDTO);
+        if(hotelBranchUpdated == null){
+            return ResponseEntity.status(404).body(new ResponseDTO<>(null,"Sucursal de hoteles no existe"));
+        }
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchUpdated,"Sucursal de hotel editada con exito"));
+
+    }
+
+    @DeleteMapping("/hotel-branches/{id}")
+    public ResponseEntity<?> deleteHotelBranch(@PathVariable Long id){
+        HotelBranch hotelBranchDeleted = hotelBranchService.deleteById(id);
+        if(hotelBranchDeleted == null){
+            return ResponseEntity.status(404).body(new ResponseDTO<>(null,"Sucursal de hotel no encontrado"));
+        }
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchDeleted,"Sucursal de hotel borrada con exito"));
+    }
+
 
 
 
