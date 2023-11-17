@@ -41,8 +41,8 @@ public class ClientController {
     }
 
     @PostMapping("/bookings")
-    public ResponseEntity<?> saveHotelBranch(@RequestBody CreateBookingDTO newBookingDTO,@RequestParam  Long userId, @RequestParam  Long[] roomsId){
-        Booking bookingCreated = bookingService.save(newBookingDTO,userId,roomsId);
+    public ResponseEntity<?> saveHotelBranch(@RequestBody CreateBookingDTO newBookingDTO){
+        Booking bookingCreated = bookingService.save(newBookingDTO);
 
         return ResponseEntity.ok().body(new ResponseDTO<>(bookingCreated, "Reservacion creada con exito"));
     }

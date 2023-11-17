@@ -18,11 +18,11 @@ public class Booking {
     private Long id;
 
     @Column(name = "start_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
     @Column(name = "end_date")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;
 
     @Column(name = "is_paid")

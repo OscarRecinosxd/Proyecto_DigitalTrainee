@@ -52,7 +52,9 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Booking save(CreateBookingDTO newBookingDTO, Long userId, Long[] roomsId) {
+    public Booking save(CreateBookingDTO newBookingDTO) {
+        Long userId = newBookingDTO.getUserId();
+        Long[] roomsId = newBookingDTO.getRoomsId();
         User user = userService.findById(userId);
         if (user == null){
             return null;

@@ -1,6 +1,7 @@
 package com.bookinghotels.booking_hotels_api.controllers;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.*;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainsResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelBranch;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
 import com.bookinghotels.booking_hotels_api.models.entities.User;
@@ -13,24 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/admin")
 public class AdminController {
 
-    /*
-
-    INSERT INTO roles (id,description,name) VALUES (1,'Rol de admin','Admins'),(2,'Rol de consumidor','Costumer'),
-(3,'Rol de hotel owner','Hotel Owner');
-
-
-INSERT INTO hotel_branch_types(id,description,name) VALUES (1,'Ideales para extranjeros','Turistico'),
-(2,'baratos a largo plazo','Larga estadia'),
-(3,'para  eventos','Eventos'),
-(4,'Para pasar el rato','Moteles');
-
-INSERT INTO hotel_chains(id,description,is_deleted,name) VALUES (1,'asd',false,'Decameron'),(2,'xd',false,'Intercontinental');
-
-     */
     @Autowired
     UserService userService;
 
@@ -85,24 +74,33 @@ INSERT INTO hotel_chains(id,description,is_deleted,name) VALUES (1,'asd',false,'
 
     @GetMapping("/hotel-chains")
     public ResponseEntity<?> getHotelChains() {
-        return ResponseEntity.ok(new ResponseDTO<>(hotelChainService.findAll(), "Consulta a cadenas de hoteles exitosa"));
+        List<HotelChain> hotelChainsFound = hotelChainService.findAll();
+
+        if (hotelChainsFound == null) {
+            return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No existe la cadena de hoteles"));
+        }
+        List<HotelChainsResponseDTO> hotelChainsResponseDTO = hotelChainService.converListToDTOList(hotelChainsFound);
+
+        return ResponseEntity.ok(new ResponseDTO<>(hotelChainsResponseDTO, "Consulta a cadenas de hoteles exitosa"));
     }
 
     @GetMapping("/hotel-chains/{id}")
     public ResponseEntity<?> getHotelChain(@PathVariable Long id) {
         HotelChain hotelChainFound = hotelChainService.findById(id);
+
         if (hotelChainFound == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No existe la cadena de hoteles"));
         }
-
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelChainFound, "Cadena de hotel encontrada con exito"));
+        HotelChainsResponseDTO hotelChainsResponseDTO = hotelChainService.convertToDTO(hotelChainFound);
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelChainsResponseDTO, "Cadena de hotel encontrada con exito"));
     }
 
     @PostMapping("/hotel-chains")
     public ResponseEntity<?> saveHotelChain(@RequestBody CreateUpdateHotelChainDTO newHotelChain) {
         HotelChain hotelChainCreated = hotelChainService.save(newHotelChain);
+        HotelChainsResponseDTO savedHotelChainDTO = hotelChainService.convertToDTO(hotelChainCreated);
 
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelChainCreated, "Cadena de hotel creada con exito"));
+        return ResponseEntity.ok().body(new ResponseDTO<>(savedHotelChainDTO, "Cadena de hotel creada con exito"));
     }
 
     @PutMapping("/hotel-chains/{id}")
@@ -111,7 +109,8 @@ INSERT INTO hotel_chains(id,description,is_deleted,name) VALUES (1,'asd',false,'
         if (hotelChainUpdate == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Cadena de hoteles no existe"));
         }
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelChainUpdate, "Cadena de hotel editada con exito"));
+        HotelChainsResponseDTO updatedHotelChainDTO = hotelChainService.convertToDTO(hotelChainUpdate);
+        return ResponseEntity.ok().body(new ResponseDTO<>(updatedHotelChainDTO, "Cadena de hotel editada con exito"));
 
     }
 
@@ -121,7 +120,8 @@ INSERT INTO hotel_chains(id,description,is_deleted,name) VALUES (1,'asd',false,'
         if (hotelChainDeleted == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Cadena de hotel no encontrado"));
         }
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelChainDeleted, "Cadena de hotel borrada con exito"));
+        HotelChainsResponseDTO deletedHotelChainDTO = hotelChainService.convertToDTO(hotelChainDeleted);
+        return ResponseEntity.ok().body(new ResponseDTO<>(deletedHotelChainDTO, "Cadena de hotel borrada con exito"));
     }
 
 

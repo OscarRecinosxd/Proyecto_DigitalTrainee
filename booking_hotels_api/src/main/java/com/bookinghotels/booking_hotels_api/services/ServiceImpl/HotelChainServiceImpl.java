@@ -1,12 +1,14 @@
 package com.bookinghotels.booking_hotels_api.services.ServiceImpl;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateUpdateHotelChainDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainsResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
 import com.bookinghotels.booking_hotels_api.repositories.HotelChainRepository;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelChainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,7 +32,10 @@ public class HotelChainServiceImpl implements HotelChainService {
 
     @Override
     public HotelChain findById(Long id) {
-        return hotelChainRepository.findById(id).orElse(null);
+        HotelChain newHotelChain = hotelChainRepository.findById(id).orElse(null);
+        if (newHotelChain == null){return null;}
+
+        return newHotelChain;
     }
 
     @Override
@@ -57,4 +62,26 @@ public class HotelChainServiceImpl implements HotelChainService {
         updatedHotelChain = hotelChainRepository.save(updatedHotelChain);
         return updatedHotelChain;
     }
+
+    @Override
+    public HotelChainsResponseDTO convertToDTO(HotelChain hotelChain) {
+        HotelChainsResponseDTO hotelChainsResponseDTO = new HotelChainsResponseDTO();
+        hotelChainsResponseDTO.setId(hotelChain.getId());
+        hotelChainsResponseDTO.setName(hotelChain.getName());
+        hotelChainsResponseDTO.setDeleted(hotelChain.isDeleted());
+        hotelChainsResponseDTO.setHotelBranches(hotelChain.getHotel_branches());
+
+        return hotelChainsResponseDTO;
+    }
+
+    @Override
+    public List<HotelChainsResponseDTO> converListToDTOList(List<HotelChain> hotelChains) {
+        List<HotelChainsResponseDTO> hotelChainsResponseDTOS = new ArrayList<>();
+        hotelChains.forEach(hotelChain -> {
+            hotelChainsResponseDTOS.add(convertToDTO(hotelChain));
+        });
+
+        return hotelChainsResponseDTOS;
+    }
+
 }

@@ -9,8 +9,9 @@ import java.time.LocalDateTime;
 public class CreateBookingDTO {
     private Long userId;
     private Long days;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Long[] roomsId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;
 }

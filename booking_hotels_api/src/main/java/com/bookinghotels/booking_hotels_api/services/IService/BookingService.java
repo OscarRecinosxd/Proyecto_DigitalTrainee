@@ -14,6 +14,6 @@ public interface BookingService {
 
     Booking findById(Long id);
 
-    Booking save(CreateBookingDTO newBookingDTO, Long userId, Long[] roomsId);
+    Booking save(CreateBookingDTO newBookingDTO);
 
 }
