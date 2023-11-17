@@ -168,4 +168,6 @@ INSERT INTO hotel_chains(id,description,is_deleted,name) VALUES (1,'asd',false,'
     }
 
 
+
+
 }

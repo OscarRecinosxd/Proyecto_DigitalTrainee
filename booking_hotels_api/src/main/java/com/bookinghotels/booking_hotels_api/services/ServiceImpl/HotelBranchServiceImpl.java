@@ -45,7 +45,7 @@ public class HotelBranchServiceImpl implements HotelBranchService {
         Double latitude = newHotelBranchDTO.getLatitude();
         Double longitude = newHotelBranchDTO.getLongitude();
 
-        newHotelBranch.setLocation(createLocation(latitude,longitude));
+        newHotelBranch.setLocation(null/*createLocation(latitude,longitude)*/);
 
         HotelChain chain = hotelChainService.findById(newHotelBranchDTO.getHotelChainId());
         HotelBranchType branch = hotelBranchTypeService.findById(newHotelBranchDTO.getHotelBranchTypeId());
