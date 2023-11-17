@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -12,7 +13,8 @@ import java.util.List;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
+    @SequenceGenerator(name = "role_seq",sequenceName = "role_seq",allocationSize = 1)
     private Long id;
 
     private String name;
@@ -20,5 +22,6 @@ public class Role {
     private String description;
 
     @OneToMany(mappedBy = "userRole")
+    @JsonIgnore
     private List<User> users;
 }

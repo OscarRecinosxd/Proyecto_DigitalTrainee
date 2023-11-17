@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,7 +11,8 @@ import java.util.List;
 @Data
 public class RoomType {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_types_seq")
+    @SequenceGenerator(name = "room_types_seq",sequenceName = "room_types_seq",allocationSize = 1)
     private Long id;
 
     private String description;
@@ -19,5 +21,6 @@ public class RoomType {
     private boolean isDeleted;
 
     @OneToMany(mappedBy = "roomType")
+    @JsonIgnore
     private List<Room> rooms;
 }

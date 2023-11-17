@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,7 +11,8 @@ import java.time.LocalTime;
 @Data
 public class ScheduleDay {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_days_seq")
+    @SequenceGenerator(name = "schedule_days_seq",sequenceName = "schedule_days_seq",allocationSize = 1)
     private Long id;
 
     @Column(name = "week_day")
@@ -27,5 +29,6 @@ public class ScheduleDay {
 
     @ManyToOne
     @JoinColumn(name = "schedule_id")
+    @JsonIgnore
     private HotelBranchSchedule hotelBranchScheduleId;
 }

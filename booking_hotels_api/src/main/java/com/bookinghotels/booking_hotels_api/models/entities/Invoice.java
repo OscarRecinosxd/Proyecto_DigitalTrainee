@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,7 +13,8 @@ import java.util.List;
 @Data
 public class Invoice {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoices_seq")
+    @SequenceGenerator(name = "invoices_seq",sequenceName = "invoices_seq",allocationSize = 1)
     private Long id;
 
     @Column(name = "total_amount")
@@ -25,12 +27,15 @@ public class Invoice {
     private boolean isDeleted;
 
     @OneToMany(mappedBy = "mainIvoice")
+    @JsonIgnore
     private List<InvoiceItem> invoiceItems;
 
     @OneToOne(mappedBy = "invoice")
+    @JsonIgnore
     private Transaction transaction;
 
     @OneToOne
+    @JsonIgnore
     private Booking booking;
 
 }

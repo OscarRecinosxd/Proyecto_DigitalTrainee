@@ -53,15 +53,15 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.postgis</groupId>
-			<artifactId>postgis-jdbc</artifactId>
-			<version>2021.1.0</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
 			<version>2.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-spatial</artifactId>
+			<version>6.2.7.Final</version>
 		</dependency>
 
 	</dependencies>

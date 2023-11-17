@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -10,7 +11,8 @@ import java.time.LocalDateTime;
 @Data
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "transactions_seq")
+    @SequenceGenerator(name = "transactions_seq",sequenceName = "transactions_seq",allocationSize = 1)
     private Long id;
 
     private float amount;
@@ -22,5 +24,6 @@ public class Transaction {
 
     @OneToOne
     @JoinColumn(name = "invoice_id")
+    @JsonIgnore
     private Invoice invoice;
 }
