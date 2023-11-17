@@ -1,7 +1,8 @@
 package com.bookinghotels.booking_hotels_api.controllers;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.*;
-import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainsResponseDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelBranchResponseDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelBranch;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
 import com.bookinghotels.booking_hotels_api.models.entities.User;
@@ -75,11 +76,10 @@ public class AdminController {
     @GetMapping("/hotel-chains")
     public ResponseEntity<?> getHotelChains() {
         List<HotelChain> hotelChainsFound = hotelChainService.findAll();
-
         if (hotelChainsFound == null) {
-            return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No existe la cadena de hoteles"));
+            return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No hay cadenas de hoteles"));
         }
-        List<HotelChainsResponseDTO> hotelChainsResponseDTO = hotelChainService.converListToDTOList(hotelChainsFound);
+        List<HotelChainResponseDTO> hotelChainsResponseDTO = hotelChainService.converListToDTOList(hotelChainsFound);
 
         return ResponseEntity.ok(new ResponseDTO<>(hotelChainsResponseDTO, "Consulta a cadenas de hoteles exitosa"));
     }
@@ -91,14 +91,14 @@ public class AdminController {
         if (hotelChainFound == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No existe la cadena de hoteles"));
         }
-        HotelChainsResponseDTO hotelChainsResponseDTO = hotelChainService.convertToDTO(hotelChainFound);
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelChainsResponseDTO, "Cadena de hotel encontrada con exito"));
+        HotelChainResponseDTO hotelChainResponseDTO = hotelChainService.convertToDTO(hotelChainFound);
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelChainResponseDTO, "Cadena de hotel encontrada con exito"));
     }
 
     @PostMapping("/hotel-chains")
     public ResponseEntity<?> saveHotelChain(@RequestBody CreateUpdateHotelChainDTO newHotelChain) {
         HotelChain hotelChainCreated = hotelChainService.save(newHotelChain);
-        HotelChainsResponseDTO savedHotelChainDTO = hotelChainService.convertToDTO(hotelChainCreated);
+        HotelChainResponseDTO savedHotelChainDTO = hotelChainService.convertToDTO(hotelChainCreated);
 
         return ResponseEntity.ok().body(new ResponseDTO<>(savedHotelChainDTO, "Cadena de hotel creada con exito"));
     }
@@ -109,7 +109,7 @@ public class AdminController {
         if (hotelChainUpdate == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Cadena de hoteles no existe"));
         }
-        HotelChainsResponseDTO updatedHotelChainDTO = hotelChainService.convertToDTO(hotelChainUpdate);
+        HotelChainResponseDTO updatedHotelChainDTO = hotelChainService.convertToDTO(hotelChainUpdate);
         return ResponseEntity.ok().body(new ResponseDTO<>(updatedHotelChainDTO, "Cadena de hotel editada con exito"));
 
     }
@@ -120,7 +120,7 @@ public class AdminController {
         if (hotelChainDeleted == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Cadena de hotel no encontrado"));
         }
-        HotelChainsResponseDTO deletedHotelChainDTO = hotelChainService.convertToDTO(hotelChainDeleted);
+        HotelChainResponseDTO deletedHotelChainDTO = hotelChainService.convertToDTO(hotelChainDeleted);
         return ResponseEntity.ok().body(new ResponseDTO<>(deletedHotelChainDTO, "Cadena de hotel borrada con exito"));
     }
 
@@ -128,7 +128,12 @@ public class AdminController {
     //--------------------------------------HOTEL BRANCH--------------------------------------
     @GetMapping("/hotel-branches")
     public ResponseEntity<?> getHotelBranches() {
-        return ResponseEntity.ok(new ResponseDTO<>(hotelBranchService.findAll(), "Consulta a sucursales de hoteles exitosa"));
+        List<HotelBranch> hotelBranchesFound = hotelBranchService.findAll();
+        if (hotelBranchesFound == null){
+            return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No hay sucursales de hoteles"));
+        }
+        List<HotelBranchResponseDTO> hotelBranchResponseDTOS = hotelBranchService.converListToDTOList(hotelBranchesFound);
+        return ResponseEntity.ok(new ResponseDTO<>(hotelBranchResponseDTOS, "Consulta a sucursales de hoteles exitosa"));
     }
 
     @GetMapping("/hotel-branches/{id}")
@@ -137,15 +142,18 @@ public class AdminController {
         if (hotelBranchFound == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No existe el hotel"));
         }
+        HotelBranchResponseDTO hotelBranchResponseDTO = hotelBranchService.convertToDTO(hotelBranchFound);
 
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchFound, "Sucursal de hotel encontrada con exito"));
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchResponseDTO, "Sucursal de hotel encontrada con exito"));
     }
 
     @PostMapping("/hotel-branches")
     public ResponseEntity<?> saveHotelBranch(@RequestBody CreateHotelBranchDTO newHotelBranch) throws ParseException {
         HotelBranch hotelBranchCreated = hotelBranchService.save(newHotelBranch);
 
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchCreated, "Sucursal de hotel creada con exito"));
+        HotelBranchResponseDTO hotelBranchResponseDTO = hotelBranchService.convertToDTO(hotelBranchCreated);
+
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchResponseDTO, "Sucursal de hotel creada con exito"));
     }
 
     @PutMapping("/hotel-branches/{id}")
@@ -154,7 +162,8 @@ public class AdminController {
         if (hotelBranchUpdated == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Sucursal de hoteles no existe"));
         }
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchUpdated, "Sucursal de hotel editada con exito"));
+        HotelBranchResponseDTO hotelBranchResponseDTO = hotelBranchService.convertToDTO(hotelBranchUpdated);
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchResponseDTO, "Sucursal de hotel editada con exito"));
 
     }
 
@@ -164,7 +173,8 @@ public class AdminController {
         if (hotelBranchDeleted == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Sucursal de hotel no encontrado"));
         }
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchDeleted, "Sucursal de hotel borrada con exito"));
+        HotelBranchResponseDTO hotelBranchResponseDTO = hotelBranchService.convertToDTO(hotelBranchDeleted);
+        return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchResponseDTO, "Sucursal de hotel borrada con exito"));
     }
 
 

@@ -1,7 +1,7 @@
 package com.bookinghotels.booking_hotels_api.services.ServiceImpl;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateUpdateHotelChainDTO;
-import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainsResponseDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
 import com.bookinghotels.booking_hotels_api.repositories.HotelChainRepository;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelChainService;
@@ -64,19 +64,19 @@ public class HotelChainServiceImpl implements HotelChainService {
     }
 
     @Override
-    public HotelChainsResponseDTO convertToDTO(HotelChain hotelChain) {
-        HotelChainsResponseDTO hotelChainsResponseDTO = new HotelChainsResponseDTO();
-        hotelChainsResponseDTO.setId(hotelChain.getId());
-        hotelChainsResponseDTO.setName(hotelChain.getName());
-        hotelChainsResponseDTO.setDeleted(hotelChain.isDeleted());
-        hotelChainsResponseDTO.setHotelBranches(hotelChain.getHotel_branches());
+    public HotelChainResponseDTO convertToDTO(HotelChain hotelChain) {
+        HotelChainResponseDTO hotelChainResponseDTO = new HotelChainResponseDTO();
+        hotelChainResponseDTO.setId(hotelChain.getId());
+        hotelChainResponseDTO.setName(hotelChain.getName());
+        hotelChainResponseDTO.setDeleted(hotelChain.isDeleted());
+        hotelChainResponseDTO.setHotelBranches(hotelChain.getHotel_branches());
 
-        return hotelChainsResponseDTO;
+        return hotelChainResponseDTO;
     }
 
     @Override
-    public List<HotelChainsResponseDTO> converListToDTOList(List<HotelChain> hotelChains) {
-        List<HotelChainsResponseDTO> hotelChainsResponseDTOS = new ArrayList<>();
+    public List<HotelChainResponseDTO> converListToDTOList(List<HotelChain> hotelChains) {
+        List<HotelChainResponseDTO> hotelChainsResponseDTOS = new ArrayList<>();
         hotelChains.forEach(hotelChain -> {
             hotelChainsResponseDTOS.add(convertToDTO(hotelChain));
         });

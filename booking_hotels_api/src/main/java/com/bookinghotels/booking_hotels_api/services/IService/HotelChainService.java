@@ -1,7 +1,7 @@
 package com.bookinghotels.booking_hotels_api.services.IService;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateUpdateHotelChainDTO;
-import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainsResponseDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public interface HotelChainService {
 
     HotelChain updateHotelChain(Long id, CreateUpdateHotelChainDTO updateHotelChainDTO);
 
-    HotelChainsResponseDTO convertToDTO(HotelChain hotelChain);
+    HotelChainResponseDTO convertToDTO(HotelChain hotelChain);
 
-    List<HotelChainsResponseDTO> converListToDTOList(List<HotelChain> hotelChains);
+    List<HotelChainResponseDTO> converListToDTOList(List<HotelChain> hotelChains);
 }
