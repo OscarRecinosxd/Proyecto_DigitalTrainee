@@ -83,4 +83,16 @@ public class BookingServiceImpl implements BookingService {
         return newBooking;
     }
 
+    @Override
+    public Booking deleteBooking(Long id) {
+        Booking deletedBooking = bookingRepository.findById(id).orElse(null);
+        if(deletedBooking == null){
+            return null;
+        }
+        deletedBooking.setDeleted(true);
+        deletedBooking = bookingRepository.save(deletedBooking);
+
+        return deletedBooking;
+    }
+
 }

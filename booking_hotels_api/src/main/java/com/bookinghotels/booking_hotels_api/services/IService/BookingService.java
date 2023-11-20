@@ -16,4 +16,6 @@ public interface BookingService {
 
     Booking save(CreateBookingDTO newBookingDTO);
 
+    Booking deleteBooking(Long id);
+
 }

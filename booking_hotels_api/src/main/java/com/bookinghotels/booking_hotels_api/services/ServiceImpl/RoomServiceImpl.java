@@ -2,6 +2,7 @@ package com.bookinghotels.booking_hotels_api.services.ServiceImpl;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateRoomDTO;
 import com.bookinghotels.booking_hotels_api.models.dtos.UpdateRoomDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.RoomResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelBranch;
 import com.bookinghotels.booking_hotels_api.models.entities.Room;
 import com.bookinghotels.booking_hotels_api.models.entities.RoomType;
@@ -12,6 +13,7 @@ import com.bookinghotels.booking_hotels_api.services.IService.RoomTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -76,5 +78,30 @@ public class RoomServiceImpl implements RoomService {
         updatedRoom = roomRepository.save(updatedRoom);
 
         return updatedRoom;
+    }
+
+    @Override
+    public RoomResponseDTO converToDTO(Room room) {
+        RoomResponseDTO roomResponseDTO = new RoomResponseDTO();
+        roomResponseDTO.setId(room.getId());
+        roomResponseDTO.setNumber(room.getNumber());
+        roomResponseDTO.setCheckInTime(room.getCheckInTime());
+        roomResponseDTO.setCheckOutTime(room.getCheckOutTime());
+        roomResponseDTO.setCapacity(room.getCapacity());
+        roomResponseDTO.setPrice(room.getPrice());
+        roomResponseDTO.setDeleted(room.isDeleted());
+        roomResponseDTO.setRoomType(room.getRoomType());
+        roomResponseDTO.setHotelBranch(room.getHotelBranch());
+        roomResponseDTO.setBookings(room.getBookings());
+
+        return roomResponseDTO;
+    }
+
+    @Override
+    public List<RoomResponseDTO> converListToDTO(List<Room> rooms) {
+        List<RoomResponseDTO> roomResponseDTOS = new ArrayList<>();
+        rooms.forEach(room -> roomResponseDTOS.add(converToDTO(room)));
+
+        return roomResponseDTOS;
     }
 }

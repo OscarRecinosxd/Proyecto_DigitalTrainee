@@ -77,9 +77,7 @@ public class HotelChainServiceImpl implements HotelChainService {
     @Override
     public List<HotelChainResponseDTO> converListToDTOList(List<HotelChain> hotelChains) {
         List<HotelChainResponseDTO> hotelChainsResponseDTOS = new ArrayList<>();
-        hotelChains.forEach(hotelChain -> {
-            hotelChainsResponseDTOS.add(convertToDTO(hotelChain));
-        });
+        hotelChains.forEach(hotelChain -> hotelChainsResponseDTOS.add(convertToDTO(hotelChain)));
 
         return hotelChainsResponseDTOS;
     }

@@ -2,6 +2,8 @@ package com.bookinghotels.booking_hotels_api.services.ServiceImpl;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateUserDTO;
 import com.bookinghotels.booking_hotels_api.models.dtos.UpdateUserDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelBranchResponseDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.UserResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.Role;
 import com.bookinghotels.booking_hotels_api.models.entities.User;
 import com.bookinghotels.booking_hotels_api.repositories.RoleRepository;
@@ -11,6 +13,7 @@ import com.bookinghotels.booking_hotels_api.services.IService.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -70,6 +73,29 @@ public class UserServiceImpl implements UserService {
         user = userRepository.save(user);
 
         return user;
+    }
+
+    @Override
+    public UserResponseDTO convertToDTO(User user) {
+        UserResponseDTO userResponseDTO = new UserResponseDTO();
+        userResponseDTO.setId(user.getId());
+        userResponseDTO.setFirstName(user.getFirstName());
+        userResponseDTO.setLastName(user.getLastName());
+        userResponseDTO.setEmail(user.getEmail());
+        userResponseDTO.setPhone(user.getPhone());
+        userResponseDTO.setDeleted(user.isDeleted());
+        userResponseDTO.setUserRole(user.getUserRole());
+        userResponseDTO.setBookings(user.getBookings());
+
+        return userResponseDTO;
+    }
+
+    @Override
+    public List<UserResponseDTO> converListToDTOList(List<User> users) {
+        List<UserResponseDTO> userResponseDTOS = new ArrayList<>();
+        users.forEach(user -> userResponseDTOS.add(convertToDTO(user)));
+
+        return userResponseDTOS;
     }
 
     public Role findRole(int role){

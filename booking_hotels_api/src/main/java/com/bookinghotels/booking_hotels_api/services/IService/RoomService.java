@@ -3,6 +3,7 @@ package com.bookinghotels.booking_hotels_api.services.IService;
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateRoomDTO;
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateUpdateHotelChainDTO;
 import com.bookinghotels.booking_hotels_api.models.dtos.UpdateRoomDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.RoomResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
 import com.bookinghotels.booking_hotels_api.models.entities.Room;
 
@@ -18,4 +19,8 @@ public interface RoomService {
     Room deleteById(Long id);
 
     Room updateRoom(Long id, UpdateRoomDTO updateRoomDTO);
+
+    RoomResponseDTO converToDTO(Room room);
+
+    List<RoomResponseDTO> converListToDTO(List<Room> rooms);
 }

@@ -31,7 +31,7 @@ public class ClientController {
     }
 
     @GetMapping("/bookings/get/{id}")
-    public ResponseEntity<?> getHotelBranches(@PathVariable Long id) {
+    public ResponseEntity<?> getBooking(@PathVariable Long id) {
         Booking bookingFound = bookingService.findById(id);
         if (bookingFound == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No existe la reservacion"));
@@ -41,30 +41,20 @@ public class ClientController {
     }
 
     @PostMapping("/bookings")
-    public ResponseEntity<?> saveHotelBranch(@RequestBody CreateBookingDTO newBookingDTO){
+    public ResponseEntity<?> saveBooking(@RequestBody CreateBookingDTO newBookingDTO){
         Booking bookingCreated = bookingService.save(newBookingDTO);
 
         return ResponseEntity.ok().body(new ResponseDTO<>(bookingCreated, "Reservacion creada con exito"));
     }
 
-    /*@PutMapping("/rooms/{id}")
-    public ResponseEntity<?> updateHotelBranch(@PathVariable Long id, @RequestBody UpdateRoomDTO updateRoomDTO) {
-        Room hotelRoomUpdated = roomService.updateRoom(id, updateRoomDTO);
-        if (hotelRoomUpdated == null) {
-            return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Habitacion no existe"));
-        }
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelRoomUpdated, "Habitacion editada con exito"));
-
-    }
-
-    @DeleteMapping("/rooms/{id}")
-    public ResponseEntity<?> deleteHotelBranch(@PathVariable Long id) {
-        Room roomDeleted = roomService.deleteById(id);
-        if (roomDeleted == null) {
+    @DeleteMapping("/bookings/{id}")
+    public ResponseEntity<?> deleteBooking(@PathVariable Long id) {
+        Booking bookingDelete = bookingService.deleteBooking(id);
+        if (bookingDelete == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Habitacion no encontrado"));
         }
-        return ResponseEntity.ok().body(new ResponseDTO<>(roomDeleted, "Habitacion borrada con exito"));
-    }*/
+        return ResponseEntity.ok().body(new ResponseDTO<>(bookingDelete, "Habitacion borrada con exito"));
+    }
 
 
 }
