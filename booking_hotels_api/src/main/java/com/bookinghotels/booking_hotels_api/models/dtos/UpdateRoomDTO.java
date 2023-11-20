@@ -8,10 +8,6 @@ import java.time.LocalTime;
 @Data
 public class UpdateRoomDTO {
     private Long roomTypeId;
-    @Schema(type = "String", pattern = "HH:mm")
-    private LocalTime CheckIntTime;
-    @Schema(type = "String", pattern = "HH:mm")
-    private LocalTime CheckOutTime;
     private int capacity;
     private float price;
 }

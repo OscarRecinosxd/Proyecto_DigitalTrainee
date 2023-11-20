@@ -116,9 +116,7 @@ public class HotelBranchServiceImpl implements HotelBranchService {
     @Override
     public List<HotelBranchResponseDTO> converListToDTOList(List<HotelBranch> hotelBranches) {
         List<HotelBranchResponseDTO> hotelBranchResponseDTOS = new ArrayList<>();
-        hotelBranches.forEach(hotelBranch -> {
-            hotelBranchResponseDTOS.add(convertToDTO(hotelBranch));
-        });
+        hotelBranches.forEach(hotelBranch -> hotelBranchResponseDTOS.add(convertToDTO(hotelBranch)));
 
         return hotelBranchResponseDTOS;
     }

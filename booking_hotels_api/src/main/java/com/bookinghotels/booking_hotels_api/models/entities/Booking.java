@@ -21,6 +21,8 @@ public class Booking {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
+    private int days;
+
     @Column(name = "end_date")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;

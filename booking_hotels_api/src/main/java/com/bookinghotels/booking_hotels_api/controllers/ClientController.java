@@ -3,6 +3,7 @@ package com.bookinghotels.booking_hotels_api.controllers;
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateBookingDTO;
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateRoomDTO;
 import com.bookinghotels.booking_hotels_api.models.dtos.UpdateRoomDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.BookingResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.Booking;
 import com.bookinghotels.booking_hotels_api.models.entities.Room;
 import com.bookinghotels.booking_hotels_api.services.IService.BookingService;
@@ -26,45 +27,48 @@ public class ClientController {
         if (userBookings == null){
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No posees habitaciones reservadas"));
         }
+        List<BookingResponseDTO> bookingResponseDTOS = bookingService.converListToDTOList(userBookings);
 
-        return ResponseEntity.ok(new ResponseDTO<>(userBookings, "Consulta a reservaciones exitosa"));
+        return ResponseEntity.ok(new ResponseDTO<>(bookingResponseDTOS, "Consulta a reservaciones exitosa"));
     }
 
     @GetMapping("/bookings/get/{id}")
-    public ResponseEntity<?> getHotelBranches(@PathVariable Long id) {
+    public ResponseEntity<?> getBooking(@PathVariable Long id) {
         Booking bookingFound = bookingService.findById(id);
         if (bookingFound == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No existe la reservacion"));
         }
+        BookingResponseDTO bookingResponseDTOS = bookingService.converToDTO(bookingFound);
 
-        return ResponseEntity.ok().body(new ResponseDTO<>(bookingFound, "Reservacion encontrada con exito"));
+        return ResponseEntity.ok().body(new ResponseDTO<>(bookingResponseDTOS, "Reservacion encontrada con exito"));
     }
 
     @PostMapping("/bookings")
-    public ResponseEntity<?> saveHotelBranch(@RequestBody CreateBookingDTO newBookingDTO){
+    public ResponseEntity<?> saveBooking(@RequestBody CreateBookingDTO newBookingDTO){
         Booking bookingCreated = bookingService.save(newBookingDTO);
 
-        return ResponseEntity.ok().body(new ResponseDTO<>(bookingCreated, "Reservacion creada con exito"));
-    }
+        if (bookingCreated == null){
+            return ResponseEntity.internalServerError().body(new ResponseDTO<>(null, "Hubo un error"));
 
-    /*@PutMapping("/rooms/{id}")
-    public ResponseEntity<?> updateHotelBranch(@PathVariable Long id, @RequestBody UpdateRoomDTO updateRoomDTO) {
-        Room hotelRoomUpdated = roomService.updateRoom(id, updateRoomDTO);
-        if (hotelRoomUpdated == null) {
-            return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Habitacion no existe"));
         }
-        return ResponseEntity.ok().body(new ResponseDTO<>(hotelRoomUpdated, "Habitacion editada con exito"));
 
+        BookingResponseDTO bookingResponseDTOS = bookingService.converToDTO(bookingCreated);
+
+        return ResponseEntity.ok().body(new ResponseDTO<>(bookingResponseDTOS, "Reservacion creada con exito"));
     }
 
-    @DeleteMapping("/rooms/{id}")
-    public ResponseEntity<?> deleteHotelBranch(@PathVariable Long id) {
-        Room roomDeleted = roomService.deleteById(id);
-        if (roomDeleted == null) {
+    @DeleteMapping("/bookings/{id}")
+    public ResponseEntity<?> deleteBooking(@PathVariable Long id) {
+        Booking bookingDelete = bookingService.deleteBooking(id);
+        if (bookingDelete == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Habitacion no encontrado"));
         }
-        return ResponseEntity.ok().body(new ResponseDTO<>(roomDeleted, "Habitacion borrada con exito"));
-    }*/
+
+        BookingResponseDTO bookingResponseDTOS = bookingService.converToDTO(bookingDelete);
+
+
+        return ResponseEntity.ok().body(new ResponseDTO<>(bookingResponseDTOS, "Habitacion borrada con exito"));
+    }
 
 
 }

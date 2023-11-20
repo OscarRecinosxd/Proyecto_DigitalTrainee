@@ -20,14 +20,6 @@ public class Room {
     @Column(name = "number")
     private String number;
 
-    @Column(name = "check_in_time")
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime checkInTime;
-
-    @Column(name = "check_out_time")
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime checkOutTime;
-
     private int capacity;
 
     private float price;

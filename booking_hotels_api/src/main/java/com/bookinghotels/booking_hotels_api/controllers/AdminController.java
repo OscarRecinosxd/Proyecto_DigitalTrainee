@@ -3,6 +3,7 @@ package com.bookinghotels.booking_hotels_api.controllers;
 import com.bookinghotels.booking_hotels_api.models.dtos.*;
 import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelBranchResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainResponseDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.UserResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelBranch;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
 import com.bookinghotels.booking_hotels_api.models.entities.User;
@@ -32,7 +33,13 @@ public class AdminController {
 
     @GetMapping("/users")
     public ResponseEntity<?> getUsers() {
-        return ResponseEntity.ok(new ResponseDTO<>(userService.findAll(), "Consulta a usuarios exitosa"));
+        List<User> users = userService.findAll();
+        if (users == null) {
+            return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No existen usuarios"));
+        }
+        List<UserResponseDTO> userResponseDTOS = userService.converListToDTOList(users);
+
+        return ResponseEntity.ok(new ResponseDTO<>(userResponseDTOS, "Consulta a usuarios exitosa"));
     }
 
     @GetMapping("/users/{id}")
@@ -41,15 +48,20 @@ public class AdminController {
         if (userFound == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "No existe el usuario"));
         }
+        UserResponseDTO userResponseDTO = userService.convertToDTO(userFound);
 
-        return ResponseEntity.ok().body(new ResponseDTO<>(userFound, "Usuario encontrado con exito"));
+        return ResponseEntity.ok().body(new ResponseDTO<>(userResponseDTO, "Usuario encontrado con exito"));
     }
 
     @PostMapping("/users")
     public ResponseEntity<?> saveUser(@RequestBody CreateUserDTO newUser) {
         User userCreated = userService.save(newUser);
+        if (userCreated == null) {
+            return ResponseEntity.internalServerError().body(new ResponseDTO<>(null, "Hubo un error"));
+        }
 
-        return ResponseEntity.ok().body(new ResponseDTO<>(userCreated, "Usuario creado con exito"));
+        UserResponseDTO userResponseDTO = userService.convertToDTO(userCreated);
+        return ResponseEntity.ok().body(new ResponseDTO<>(userResponseDTO, "Usuario creado con exito"));
     }
 
     @PutMapping("/users/{id}")
@@ -58,7 +70,9 @@ public class AdminController {
         if (userUpdated == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Usuario no existe"));
         }
-        return ResponseEntity.ok().body(new ResponseDTO<>(userUpdated, "Usuario editado con exito"));
+        UserResponseDTO userResponseDTO = userService.convertToDTO(userUpdated);
+
+        return ResponseEntity.ok().body(new ResponseDTO<>(userResponseDTO, "Usuario editado con exito"));
 
     }
 
@@ -68,7 +82,9 @@ public class AdminController {
         if (userDeleted == null) {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Usuario no encontrado"));
         }
-        return ResponseEntity.ok().body(new ResponseDTO<>(userDeleted, "Usuario borrado con exito"));
+        UserResponseDTO userResponseDTO = userService.convertToDTO(userDeleted);
+
+        return ResponseEntity.ok().body(new ResponseDTO<>(userResponseDTO, "Usuario borrado con exito"));
     }
 
     // ----------------------------------HOTEL CHAIN-----------------------------------------------
@@ -98,6 +114,9 @@ public class AdminController {
     @PostMapping("/hotel-chains")
     public ResponseEntity<?> saveHotelChain(@RequestBody CreateUpdateHotelChainDTO newHotelChain) {
         HotelChain hotelChainCreated = hotelChainService.save(newHotelChain);
+        if (hotelChainCreated == null) {
+            return ResponseEntity.internalServerError().body(new ResponseDTO<>(null, "Hubo un error"));
+        }
         HotelChainResponseDTO savedHotelChainDTO = hotelChainService.convertToDTO(hotelChainCreated);
 
         return ResponseEntity.ok().body(new ResponseDTO<>(savedHotelChainDTO, "Cadena de hotel creada con exito"));
@@ -150,7 +169,9 @@ public class AdminController {
     @PostMapping("/hotel-branches")
     public ResponseEntity<?> saveHotelBranch(@RequestBody CreateHotelBranchDTO newHotelBranch) throws ParseException {
         HotelBranch hotelBranchCreated = hotelBranchService.save(newHotelBranch);
-
+        if (hotelBranchCreated == null) {
+            return ResponseEntity.internalServerError().body(new ResponseDTO<>(null, "Hubo un error"));
+        }
         HotelBranchResponseDTO hotelBranchResponseDTO = hotelBranchService.convertToDTO(hotelBranchCreated);
 
         return ResponseEntity.ok().body(new ResponseDTO<>(hotelBranchResponseDTO, "Sucursal de hotel creada con exito"));
