@@ -47,6 +47,8 @@ public class HotelBranchServiceImpl implements HotelBranchService {
         newHotelBranch.setName(newHotelBranchDTO.getName());
         Double latitude = newHotelBranchDTO.getLatitude();
         Double longitude = newHotelBranchDTO.getLongitude();
+        newHotelBranch.setCheckInTime(newHotelBranchDTO.getCheckInTime());
+        newHotelBranch.setCheckOutTime(newHotelBranchDTO.getCheckOutTime());
 
         newHotelBranch.setLocation(null/*createLocation(latitude,longitude)*/);
 
@@ -110,6 +112,8 @@ public class HotelBranchServiceImpl implements HotelBranchService {
         hotelBranchResponseDTO.setName(hotelBranch.getName());
         hotelBranchResponseDTO.setAddress(hotelBranch.getAddress());
         hotelBranchResponseDTO.setDeleted(hotelBranch.isDeleted());
+        hotelBranchResponseDTO.setCheckInTime(hotelBranch.getCheckInTime());
+        hotelBranchResponseDTO.setCheckOutTime(hotelBranch.getCheckOutTime());
         return hotelBranchResponseDTO;
     }
 

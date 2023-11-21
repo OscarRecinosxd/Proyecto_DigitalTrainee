@@ -13,8 +13,7 @@ import java.util.List;
 @Data
 public class Booking {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "bookings_seq")
-    @SequenceGenerator(name = "bookings_seq",sequenceName = "bookings_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "start_date")

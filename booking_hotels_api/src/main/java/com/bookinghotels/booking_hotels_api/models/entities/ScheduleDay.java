@@ -11,8 +11,7 @@ import java.time.LocalTime;
 @Data
 public class ScheduleDay {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "schedule_days_seq")
-    @SequenceGenerator(name = "schedule_days_seq",sequenceName = "schedule_days_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "week_day")

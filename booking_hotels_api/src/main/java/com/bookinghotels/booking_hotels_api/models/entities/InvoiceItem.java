@@ -9,8 +9,7 @@ import lombok.Data;
 @Data
 public class InvoiceItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoice_items_seq")
-    @SequenceGenerator(name = "invoice_items_seq",sequenceName = "invoice_items_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String description;

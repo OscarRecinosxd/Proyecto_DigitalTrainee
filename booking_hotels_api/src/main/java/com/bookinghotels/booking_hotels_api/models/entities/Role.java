@@ -13,8 +13,7 @@ import java.util.List;
 public class Role {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
-    @SequenceGenerator(name = "role_seq",sequenceName = "role_seq",allocationSize = 1,initialValue = 4)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -24,4 +23,5 @@ public class Role {
     @OneToMany(mappedBy = "userRole")
     @JsonIgnore
     private List<User> users;
+
 }

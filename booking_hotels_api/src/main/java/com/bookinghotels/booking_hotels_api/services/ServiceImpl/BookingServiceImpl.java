@@ -3,14 +3,17 @@ package com.bookinghotels.booking_hotels_api.services.ServiceImpl;
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateBookingDTO;
 import com.bookinghotels.booking_hotels_api.models.dtos.response.BookingResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.*;
+import com.bookinghotels.booking_hotels_api.models.enums.DAYS;
 import com.bookinghotels.booking_hotels_api.repositories.BookingRepository;
 import com.bookinghotels.booking_hotels_api.repositories.UserRepository;
 import com.bookinghotels.booking_hotels_api.services.IService.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,6 +59,9 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking save(CreateBookingDTO newBookingDTO) {
 
+        Period period = Period.between(newBookingDTO.getStartDate(),newBookingDTO.getEndDate());
+        int days = period.getDays();
+
         Invoice invoice = new Invoice();
         invoice.setIssueDate(LocalDateTime.now());
         float totalPrice = 0.00f;
@@ -95,6 +101,7 @@ public class BookingServiceImpl implements BookingService {
 
         newBooking.setStartDate(startDate);
         newBooking.setEndDate(endDate);
+        newBooking.setDays(days);
         newBooking.setUser(user);
         newBooking.setRooms(bookingRooms);
         newBooking.setPaid(false);
@@ -102,7 +109,8 @@ public class BookingServiceImpl implements BookingService {
         newBooking = bookingRepository.save(newBooking);
 
         invoice.setBooking(newBooking);
-        invoiceService.create(invoice);
+        invoice = invoiceService.create(invoice);
+        List<InvoiceItem> invoiceItems = new ArrayList<>();
 
         for (Room room : newBooking.getRooms()) {
             if (room == null) {
@@ -115,8 +123,14 @@ public class BookingServiceImpl implements BookingService {
             invoiceItem.setDeleted(false);
             invoiceItem.setMainIvoice(invoice);
             totalPrice = newBooking.getDays() * room.getPrice();
-            invoiceItemService.create(invoiceItem);
+
+            invoiceItems.add(invoiceItemService.create(invoiceItem));
         }
+        invoice.setInvoiceItems(invoiceItems);
+        invoice = invoiceService.create(invoice);
+        newBooking.setInvoice(invoice);
+
+        bookingRepository.save(newBooking);
 
         invoice.setTotalAmount(totalPrice);
         invoiceService.create(invoice);
