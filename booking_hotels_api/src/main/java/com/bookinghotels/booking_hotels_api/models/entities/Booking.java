@@ -1,9 +1,9 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.extern.java.Log;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -18,9 +18,11 @@ public class Booking {
     private Long id;
 
     @Column(name = "start_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime startDate;
 
     @Column(name = "end_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime endDate;
 
     @Column(name = "is_paid")

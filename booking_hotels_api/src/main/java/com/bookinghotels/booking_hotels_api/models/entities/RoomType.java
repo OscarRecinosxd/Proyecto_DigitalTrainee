@@ -12,7 +12,7 @@ import java.util.List;
 public class RoomType {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_types_seq")
-    @SequenceGenerator(name = "room_types_seq",sequenceName = "room_types_seq",allocationSize = 1)
+    @SequenceGenerator(name = "room_types_seq",sequenceName = "room_types_seq",allocationSize = 1,initialValue = 5)
     private Long id;
 
     private String description;

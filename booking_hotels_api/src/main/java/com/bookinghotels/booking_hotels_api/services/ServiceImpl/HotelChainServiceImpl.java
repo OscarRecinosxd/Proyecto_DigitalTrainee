@@ -1,12 +1,14 @@
 package com.bookinghotels.booking_hotels_api.services.ServiceImpl;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateUpdateHotelChainDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
 import com.bookinghotels.booking_hotels_api.repositories.HotelChainRepository;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelChainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,7 +32,10 @@ public class HotelChainServiceImpl implements HotelChainService {
 
     @Override
     public HotelChain findById(Long id) {
-        return hotelChainRepository.findById(id).orElse(null);
+        HotelChain newHotelChain = hotelChainRepository.findById(id).orElse(null);
+        if (newHotelChain == null){return null;}
+
+        return newHotelChain;
     }
 
     @Override
@@ -57,4 +62,24 @@ public class HotelChainServiceImpl implements HotelChainService {
         updatedHotelChain = hotelChainRepository.save(updatedHotelChain);
         return updatedHotelChain;
     }
+
+    @Override
+    public HotelChainResponseDTO convertToDTO(HotelChain hotelChain) {
+        HotelChainResponseDTO hotelChainResponseDTO = new HotelChainResponseDTO();
+        hotelChainResponseDTO.setId(hotelChain.getId());
+        hotelChainResponseDTO.setName(hotelChain.getName());
+        hotelChainResponseDTO.setDeleted(hotelChain.isDeleted());
+        hotelChainResponseDTO.setHotelBranches(hotelChain.getHotel_branches());
+
+        return hotelChainResponseDTO;
+    }
+
+    @Override
+    public List<HotelChainResponseDTO> converListToDTOList(List<HotelChain> hotelChains) {
+        List<HotelChainResponseDTO> hotelChainsResponseDTOS = new ArrayList<>();
+        hotelChains.forEach(hotelChain -> hotelChainsResponseDTOS.add(convertToDTO(hotelChain)));
+
+        return hotelChainsResponseDTOS;
+    }
+
 }

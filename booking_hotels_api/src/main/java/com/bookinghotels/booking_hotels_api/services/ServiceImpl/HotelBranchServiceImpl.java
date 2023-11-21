@@ -2,6 +2,8 @@ package com.bookinghotels.booking_hotels_api.services.ServiceImpl;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateHotelBranchDTO;
 import com.bookinghotels.booking_hotels_api.models.dtos.UpdateHotelBranchDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelBranchResponseDTO;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelBranch;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelBranchType;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
@@ -18,6 +20,7 @@ import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -97,6 +100,25 @@ public class HotelBranchServiceImpl implements HotelBranchService {
         Point location = ((Point)wktToGeometry(location2));
         location.setSRID(4326);
         return ((Point)wktToGeometry(location2));
+    }
+
+    @Override
+    public HotelBranchResponseDTO convertToDTO(HotelBranch hotelBranch) {
+        HotelBranchResponseDTO hotelBranchResponseDTO = new HotelBranchResponseDTO();
+        hotelBranchResponseDTO.setHotelChain(hotelBranch.getHotelChain());
+        hotelBranchResponseDTO.setHotelBranchType(hotelBranch.getHotelBranchType());
+        hotelBranchResponseDTO.setName(hotelBranch.getName());
+        hotelBranchResponseDTO.setAddress(hotelBranch.getAddress());
+        hotelBranchResponseDTO.setDeleted(hotelBranch.isDeleted());
+        return hotelBranchResponseDTO;
+    }
+
+    @Override
+    public List<HotelBranchResponseDTO> converListToDTOList(List<HotelBranch> hotelBranches) {
+        List<HotelBranchResponseDTO> hotelBranchResponseDTOS = new ArrayList<>();
+        hotelBranches.forEach(hotelBranch -> hotelBranchResponseDTOS.add(convertToDTO(hotelBranch)));
+
+        return hotelBranchResponseDTOS;
     }
 
     public Geometry wktToGeometry(String wellKnownText) throws ParseException {

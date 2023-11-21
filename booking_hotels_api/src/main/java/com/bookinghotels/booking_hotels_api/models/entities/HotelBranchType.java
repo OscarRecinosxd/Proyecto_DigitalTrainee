@@ -13,7 +13,7 @@ import java.util.List;
 public class HotelBranchType{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hotel_branch_types_seq")
-    @SequenceGenerator(name = "hotel_branch_types_seq",sequenceName = "hotel_branch_types_seq",allocationSize = 1)
+    @SequenceGenerator(name = "hotel_branch_types_seq",sequenceName = "hotel_branch_types_seq",allocationSize = 1,initialValue = 4)
     private Long id;
 
     private String name;

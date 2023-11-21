@@ -1,5 +1,6 @@
 package com.bookinghotels.booking_hotels_api.models.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -20,9 +21,11 @@ public class Room {
     private String number;
 
     @Column(name = "check_in_time")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime checkInTime;
 
     @Column(name = "check_out_time")
+    @JsonFormat(pattern = "HH:mm")
     private LocalTime checkOutTime;
 
     private int capacity;
