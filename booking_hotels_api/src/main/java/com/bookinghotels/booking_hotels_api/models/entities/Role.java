@@ -22,6 +22,7 @@ public class Role {
 
     @OneToMany(mappedBy = "userRole")
     @JsonIgnore
+    @ToString.Exclude
     private List<User> users;
 
 }

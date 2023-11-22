@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -34,10 +35,12 @@ public class User {
     @ManyToOne
     @JoinColumn(name = "role_id")
     @JsonIgnore
+    @ToString.Exclude
     private Role userRole;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
+    @ToString.Exclude
     private List<Booking> bookings;
 
 }
