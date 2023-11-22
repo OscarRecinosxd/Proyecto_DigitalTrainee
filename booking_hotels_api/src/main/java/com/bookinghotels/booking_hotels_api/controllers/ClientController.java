@@ -66,8 +66,8 @@ public class ClientController {
 
         BookingResponseDTO bookingResponseDTOS = bookingService.converToDTO(bookingDelete);
 
-
         return ResponseEntity.ok().body(new ResponseDTO<>(bookingResponseDTOS, "Habitacion borrada con exito"));
+
     }
 
 

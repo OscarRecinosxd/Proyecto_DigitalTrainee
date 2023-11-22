@@ -24,6 +24,4 @@ public interface BookingService {
     BookingResponseDTO converToDTO(Booking booking);
 
     List<BookingResponseDTO> converListToDTOList(List<Booking> bookings);
-
-
 }
