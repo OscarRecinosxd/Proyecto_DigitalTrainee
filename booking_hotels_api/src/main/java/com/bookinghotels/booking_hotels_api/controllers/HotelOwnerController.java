@@ -69,7 +69,8 @@ public class HotelOwnerController {
             return ResponseEntity.status(404).body(new ResponseDTO<>(null, "Habitacion no encontrado"));
         }
         RoomResponseDTO roomResponseDTO = roomService.converToDTO(roomDeleted);
-        return ResponseEntity.ok().body(new ResponseDTO<>(roomDeleted, "Habitacion borrada con exito"));
+
+        return ResponseEntity.ok().body(new ResponseDTO<>(roomResponseDTO, "Habitacion borrada con exito"));
     }
 
 }

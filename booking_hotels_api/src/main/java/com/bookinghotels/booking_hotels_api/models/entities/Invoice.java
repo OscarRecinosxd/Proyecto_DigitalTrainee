@@ -13,8 +13,7 @@ import java.util.List;
 @Data
 public class Invoice {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "invoices_seq")
-    @SequenceGenerator(name = "invoices_seq",sequenceName = "invoices_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "total_amount")

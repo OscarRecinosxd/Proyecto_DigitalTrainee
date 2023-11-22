@@ -12,8 +12,7 @@ import java.util.List;
 @Data
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_seq")
-    @SequenceGenerator(name = "users_seq",sequenceName = "users_seq",allocationSize = 1,initialValue = 2)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "first_name")
@@ -24,6 +23,7 @@ public class User {
 
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private String phone;

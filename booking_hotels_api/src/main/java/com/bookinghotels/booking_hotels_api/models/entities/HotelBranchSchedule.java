@@ -11,8 +11,7 @@ import java.util.List;
 @Data
 public class HotelBranchSchedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "hotel_branch_schedules_seq")
-    @SequenceGenerator(name = "hotel_branch_schedules_seq",sequenceName = "hotel_branch_schedules_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String description;

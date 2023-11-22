@@ -1,18 +1,19 @@
 package com.bookinghotels.booking_hotels_api.services.ServiceImpl;
 
 import com.bookinghotels.booking_hotels_api.models.dtos.CreateBookingDTO;
-import com.bookinghotels.booking_hotels_api.models.entities.Booking;
-import com.bookinghotels.booking_hotels_api.models.entities.Room;
-import com.bookinghotels.booking_hotels_api.models.entities.User;
+import com.bookinghotels.booking_hotels_api.models.dtos.response.BookingResponseDTO;
+import com.bookinghotels.booking_hotels_api.models.entities.*;
+import com.bookinghotels.booking_hotels_api.models.enums.DAYS;
 import com.bookinghotels.booking_hotels_api.repositories.BookingRepository;
 import com.bookinghotels.booking_hotels_api.repositories.UserRepository;
-import com.bookinghotels.booking_hotels_api.services.IService.BookingService;
-import com.bookinghotels.booking_hotels_api.services.IService.RoomService;
-import com.bookinghotels.booking_hotels_api.services.IService.UserService;
+import com.bookinghotels.booking_hotels_api.services.IService.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,9 +28,13 @@ public class BookingServiceImpl implements BookingService {
     private UserService userService;
 
     @Autowired
+    private InvoiceService invoiceService;
+
+    @Autowired
+    private InvoiceItemService invoiceItemService;
+
+    @Autowired
     private RoomService roomService;
-
-
 
     @Override
     public List<Booking> findAll() {
@@ -53,32 +58,82 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking save(CreateBookingDTO newBookingDTO) {
+
+        Period period = Period.between(newBookingDTO.getStartDate(),newBookingDTO.getEndDate());
+        int days = period.getDays();
+
+        Invoice invoice = new Invoice();
+        invoice.setIssueDate(LocalDateTime.now());
+        float totalPrice = 0.00f;
+        invoice.setDeleted(false);
+
         Long userId = newBookingDTO.getUserId();
         Long[] roomsId = newBookingDTO.getRoomsId();
         User user = userService.findById(userId);
+
         if (user == null){
             return null;
         }
+
         List<Room> bookingRooms = new ArrayList<>();
-        for (int i = 0; i < roomsId.length; i++){
-            Room room = roomService.findById(roomsId[i]);
-            if(room == null) {return null;}
+        for (Long aLong : roomsId) {
+            Room room = roomService.findById(aLong);
+            if (room == null) {
+                return null;
+            }
+            totalPrice += room.getPrice();
             bookingRooms.add(room);
         }
+
+        invoice.setTotalAmount(0);
+
+
         Booking newBooking = new Booking();
-        LocalDateTime startDate = newBookingDTO.getStartDate();
-        LocalDateTime endDate = newBookingDTO.getEndDate();
+
+        Room roomAux = bookingRooms.get(0);
+        LocalTime checkIn  = roomAux.getHotelBranch().getCheckInTime();
+        LocalTime checkOut = roomAux.getHotelBranch().getCheckOutTime();
+
+
+        LocalDateTime startDate = newBookingDTO.getStartDate().atTime(checkIn.getHour(),checkIn.getMinute());
+        LocalDateTime endDate = newBookingDTO.getEndDate().atTime(checkOut.getHour(),checkOut.getMinute());
 
 
         newBooking.setStartDate(startDate);
         newBooking.setEndDate(endDate);
+        newBooking.setDays(days);
         newBooking.setUser(user);
         newBooking.setRooms(bookingRooms);
         newBooking.setPaid(false);
 
         newBooking = bookingRepository.save(newBooking);
 
+        invoice.setBooking(newBooking);
+        invoice = invoiceService.create(invoice);
+        List<InvoiceItem> invoiceItems = new ArrayList<>();
 
+        for (Room room : newBooking.getRooms()) {
+            if (room == null) {
+                return null;
+            }
+            InvoiceItem invoiceItem = new InvoiceItem();
+            invoiceItem.setDescription("Renta de cuarto  :" + room.getNumber());
+            invoiceItem.setAmount(room.getPrice());
+            invoiceItem.setQuantity(newBooking.getDays());
+            invoiceItem.setDeleted(false);
+            invoiceItem.setMainIvoice(invoice);
+            totalPrice = newBooking.getDays() * room.getPrice();
+
+            invoiceItems.add(invoiceItemService.create(invoiceItem));
+        }
+        invoice.setInvoiceItems(invoiceItems);
+        invoice = invoiceService.create(invoice);
+        newBooking.setInvoice(invoice);
+
+        bookingRepository.save(newBooking);
+
+        invoice.setTotalAmount(totalPrice);
+        invoiceService.create(invoice);
 
         return newBooking;
     }
@@ -93,6 +148,30 @@ public class BookingServiceImpl implements BookingService {
         deletedBooking = bookingRepository.save(deletedBooking);
 
         return deletedBooking;
+    }
+
+    @Override
+    public BookingResponseDTO converToDTO(Booking booking) {
+        BookingResponseDTO bookingResponseDTO = new BookingResponseDTO();
+        bookingResponseDTO.setId(booking.getId());
+        bookingResponseDTO.setStartDate(booking.getStartDate());
+        bookingResponseDTO.setEndDate(booking.getEndDate());
+        bookingResponseDTO.setPaid(booking.isPaid());
+        bookingResponseDTO.setDeleted(booking.isDeleted());
+        bookingResponseDTO.setUser(booking.getUser());
+        bookingResponseDTO.setInvoice(booking.getInvoice());
+        bookingResponseDTO.setRooms(booking.getRooms());
+
+        return bookingResponseDTO;
+    }
+
+    @Override
+    public List<BookingResponseDTO> converListToDTOList(List<Booking> bookings) {
+        List<BookingResponseDTO> bookingResponseDTOS = new ArrayList<>();
+
+        bookings.forEach(booking -> bookingResponseDTOS.add(converToDTO(booking)));
+
+        return bookingResponseDTOS;
     }
 
 }

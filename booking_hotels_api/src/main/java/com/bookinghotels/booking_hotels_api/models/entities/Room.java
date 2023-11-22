@@ -13,20 +13,11 @@ import java.util.List;
 @Data
 public class Room {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "room_seq")
-    @SequenceGenerator(name = "room_seq",sequenceName = "room_seq",allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "number")
     private String number;
-
-    @Column(name = "check_in_time")
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime checkInTime;
-
-    @Column(name = "check_out_time")
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime checkOutTime;
 
     private int capacity;
 

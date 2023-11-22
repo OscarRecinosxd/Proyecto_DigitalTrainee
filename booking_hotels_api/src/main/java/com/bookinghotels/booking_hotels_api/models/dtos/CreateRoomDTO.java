@@ -10,10 +10,6 @@ public class CreateRoomDTO {
     private Long hotelBranchId;
     private Long roomTypeId;
     private String roomIdentifier;
-    @Schema(type = "string", pattern = "HH:mm")
-    private LocalTime CheckIntTime;
-    @Schema(type = "string", pattern = "HH:mm")
-    private LocalTime CheckOutTime;
     private int capacity;
     private float price;
 

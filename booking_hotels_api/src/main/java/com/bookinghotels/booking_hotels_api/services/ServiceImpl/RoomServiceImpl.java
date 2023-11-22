@@ -36,8 +36,6 @@ public class RoomServiceImpl implements RoomService {
     public Room save(CreateRoomDTO newHotelChain) {
         Room newRoom = new Room();
         newRoom.setNumber(newHotelChain.getRoomIdentifier());
-        newRoom.setCheckInTime(newHotelChain.getCheckIntTime());
-        newRoom.setCheckOutTime(newHotelChain.getCheckOutTime());
         newRoom.setCapacity(newHotelChain.getCapacity());
         newRoom.setPrice(newHotelChain.getPrice());
 
@@ -70,8 +68,6 @@ public class RoomServiceImpl implements RoomService {
         Room updatedRoom = findById(id);
         RoomType roomType = roomTypeService.findById(updateRoomDTO.getRoomTypeId());
         updatedRoom.setRoomType(roomType);
-        updatedRoom.setCheckInTime(updateRoomDTO.getCheckIntTime());
-        updatedRoom.setCheckOutTime(updateRoomDTO.getCheckOutTime());
         updatedRoom.setCapacity(updateRoomDTO.getCapacity());
         updatedRoom.setPrice(updateRoomDTO.getPrice());
 
@@ -85,8 +81,6 @@ public class RoomServiceImpl implements RoomService {
         RoomResponseDTO roomResponseDTO = new RoomResponseDTO();
         roomResponseDTO.setId(room.getId());
         roomResponseDTO.setNumber(room.getNumber());
-        roomResponseDTO.setCheckInTime(room.getCheckInTime());
-        roomResponseDTO.setCheckOutTime(room.getCheckOutTime());
         roomResponseDTO.setCapacity(room.getCapacity());
         roomResponseDTO.setPrice(room.getPrice());
         roomResponseDTO.setDeleted(room.isDeleted());

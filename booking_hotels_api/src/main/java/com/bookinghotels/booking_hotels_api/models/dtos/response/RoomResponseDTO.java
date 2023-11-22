@@ -13,13 +13,6 @@ import java.util.List;
 public class RoomResponseDTO {
     private Long id;
     private String number;
-
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime checkInTime;
-
-    @JsonFormat(pattern = "HH:mm")
-    private LocalTime checkOutTime;
-
     private int capacity;
     private float price;
     private boolean isDeleted;
