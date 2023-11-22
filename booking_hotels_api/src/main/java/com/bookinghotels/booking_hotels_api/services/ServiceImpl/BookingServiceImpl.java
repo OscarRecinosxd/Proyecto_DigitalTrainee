@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -58,37 +59,47 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Booking save(CreateBookingDTO newBookingDTO) {
-
         Period period = Period.between(newBookingDTO.getStartDate(),newBookingDTO.getEndDate());
         int days = period.getDays();
+        float totalPrice = 0.00f;
 
         Invoice invoice = new Invoice();
-        invoice.setIssueDate(LocalDateTime.now());
-        float totalPrice = 0.00f;
-        invoice.setDeleted(false);
+        Booking newBooking = new Booking();
+        List<Room> bookingRooms = new ArrayList<>();
+        List<InvoiceItem> invoiceItems = new ArrayList<>();
 
         Long userId = newBookingDTO.getUserId();
         Long[] roomsId = newBookingDTO.getRoomsId();
         User user = userService.findById(userId);
 
-        if (user == null){
-            return null;
-        }
 
-        List<Room> bookingRooms = new ArrayList<>();
+
         for (Long aLong : roomsId) {
             Room room = roomService.findById(aLong);
+            InvoiceItem invoiceItem = new InvoiceItem();
+
             if (room == null) {
                 return null;
             }
-            totalPrice += room.getPrice();
+            invoiceItem.setDescription("Item de habitacion: "
+                    +room.getNumber() + " por " + days + " dias");
+            float amount =  room.getPrice() * days;
+            invoiceItem.setAmount(amount);
+            invoiceItem.setQuantity(days);
+            invoiceItem.setDeleted(false);
+
+            invoiceItems.add(invoiceItem);
+
+            totalPrice += amount;
             bookingRooms.add(room);
         }
 
-        invoice.setTotalAmount(0);
 
 
-        Booking newBooking = new Booking();
+        invoice.setTotalAmount(totalPrice);
+        invoice.setIssueDate(LocalDateTime.now());
+        invoice.setDeleted(false);
+        invoice.setInvoiceItems(invoiceItems);
 
         Room roomAux = bookingRooms.get(0);
         LocalTime checkIn  = roomAux.getHotelBranch().getCheckInTime();
@@ -99,41 +110,21 @@ public class BookingServiceImpl implements BookingService {
         LocalDateTime endDate = newBookingDTO.getEndDate().atTime(checkOut.getHour(),checkOut.getMinute());
 
 
+
         newBooking.setStartDate(startDate);
         newBooking.setEndDate(endDate);
         newBooking.setDays(days);
+        newBooking.setDeleted(false);
         newBooking.setUser(user);
+        newBooking.setInvoice(invoice);
         newBooking.setRooms(bookingRooms);
-        newBooking.setPaid(false);
+
+        invoiceService.create(invoice);
+        invoiceItems.forEach(invoiceItemService::create);
+
 
         newBooking = bookingRepository.save(newBooking);
 
-        invoice.setBooking(newBooking);
-        invoice = invoiceService.create(invoice);
-        List<InvoiceItem> invoiceItems = new ArrayList<>();
-
-        for (Room room : newBooking.getRooms()) {
-            if (room == null) {
-                return null;
-            }
-            InvoiceItem invoiceItem = new InvoiceItem();
-            invoiceItem.setDescription("Renta de cuarto  :" + room.getNumber());
-            invoiceItem.setAmount(room.getPrice());
-            invoiceItem.setQuantity(newBooking.getDays());
-            invoiceItem.setDeleted(false);
-            invoiceItem.setMainIvoice(invoice);
-            totalPrice = newBooking.getDays() * room.getPrice();
-
-            invoiceItems.add(invoiceItemService.create(invoiceItem));
-        }
-        invoice.setInvoiceItems(invoiceItems);
-        invoice = invoiceService.create(invoice);
-        newBooking.setInvoice(invoice);
-
-        bookingRepository.save(newBooking);
-
-        invoice.setTotalAmount(totalPrice);
-        invoiceService.create(invoice);
 
         return newBooking;
     }
