@@ -8,11 +8,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InvoiceItemServiceImpl implements InvoiceItemService {
+
+    private final InvoiceItemRepository invoiceItemRepository;
+
     @Autowired
-    InvoiceItemRepository invoiceRepository;
+    public InvoiceItemServiceImpl(InvoiceItemRepository invoiceItemRepository) {
+        this.invoiceItemRepository = invoiceItemRepository;
+    }
     @Override
     public InvoiceItem create(InvoiceItem invoiceItem) {
-        invoiceItem = invoiceRepository.save(invoiceItem);
+        invoiceItem = invoiceItemRepository.save(invoiceItem);
 
         return invoiceItem;
     }

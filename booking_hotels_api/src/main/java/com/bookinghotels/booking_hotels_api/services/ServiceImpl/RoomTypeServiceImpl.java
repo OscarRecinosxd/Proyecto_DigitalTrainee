@@ -9,9 +9,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoomTypeServiceImpl implements RoomTypeService {
 
-    @Autowired
-    RoomTypeRepository roomTypeRepository;
+    private final RoomTypeRepository roomTypeRepository;
 
+    @Autowired
+    public RoomTypeServiceImpl(RoomTypeRepository roomTypeRepository) {
+        this.roomTypeRepository = roomTypeRepository;
+    }
     @Override
     public RoomType findById(Long id) {
         return roomTypeRepository.findById(id).orElse(null);

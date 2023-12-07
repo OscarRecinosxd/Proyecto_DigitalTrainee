@@ -18,14 +18,20 @@ import java.util.List;
 
 @Service
 public class RoomServiceImpl implements RoomService {
-    @Autowired
-    RoomRepository roomRepository;
 
+    private final RoomRepository roomRepository;
+    private final HotelBranchService hotelBranchService;
+    private final RoomTypeService roomTypeService;
     @Autowired
-    HotelBranchService hotelBranchService;
-
-    @Autowired
-    RoomTypeService roomTypeService;
+    public RoomServiceImpl(
+            RoomRepository roomRepository,
+            HotelBranchService hotelBranchService,
+            RoomTypeService roomTypeService
+    ) {
+        this.roomRepository = roomRepository;
+        this.hotelBranchService = hotelBranchService;
+        this.roomTypeService = roomTypeService;
+    }
 
     @Override
     public List<Room> findAll() {

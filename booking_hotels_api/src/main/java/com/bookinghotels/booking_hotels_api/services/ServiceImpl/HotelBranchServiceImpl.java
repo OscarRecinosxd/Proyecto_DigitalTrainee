@@ -25,16 +25,20 @@ import java.util.List;
 
 @Service
 public class HotelBranchServiceImpl implements HotelBranchService {
-    @Autowired
-    HotelBranchRepository hotelBranchRepository;
+    private final HotelBranchRepository hotelBranchRepository;
+    private final HotelChainService hotelChainService;
+    private final HotelBranchTypeService hotelBranchTypeService;
 
     @Autowired
-    HotelChainService hotelChainService;
-
-    @Autowired
-    HotelBranchTypeService hotelBranchTypeService;
-
-
+    public HotelBranchServiceImpl(
+            HotelBranchRepository hotelBranchRepository,
+            HotelChainService hotelChainService,
+            HotelBranchTypeService hotelBranchTypeService
+    ) {
+        this.hotelBranchRepository = hotelBranchRepository;
+        this.hotelChainService = hotelChainService;
+        this.hotelBranchTypeService = hotelBranchTypeService;
+    }
     @Override
     public List<HotelBranch> findAll() {
         return hotelBranchRepository.findAll();

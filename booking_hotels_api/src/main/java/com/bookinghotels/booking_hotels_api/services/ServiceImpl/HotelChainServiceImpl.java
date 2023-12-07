@@ -14,8 +14,13 @@ import java.util.List;
 @Service
 public class HotelChainServiceImpl implements HotelChainService {
 
+    private final HotelChainRepository hotelChainRepository;
+
     @Autowired
-    private HotelChainRepository hotelChainRepository;
+    public HotelChainServiceImpl(HotelChainRepository hotelChainRepository) {
+        this.hotelChainRepository = hotelChainRepository;
+    }
+
     @Override
     public List<HotelChain> findAll() {
         return hotelChainRepository.findAll();

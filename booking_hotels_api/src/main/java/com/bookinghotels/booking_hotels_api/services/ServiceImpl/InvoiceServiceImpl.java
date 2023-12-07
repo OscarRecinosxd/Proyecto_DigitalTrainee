@@ -8,8 +8,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
+    private final InvoiceRepository invoiceRepository;
+
     @Autowired
-    InvoiceRepository invoiceRepository;
+    public InvoiceServiceImpl(InvoiceRepository invoiceRepository) {
+        this.invoiceRepository = invoiceRepository;
+    }
 
     @Override
     public Invoice create(Invoice invoice) {
