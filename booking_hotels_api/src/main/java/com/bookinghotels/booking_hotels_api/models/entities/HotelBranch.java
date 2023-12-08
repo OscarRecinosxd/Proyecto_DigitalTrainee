@@ -2,10 +2,8 @@ package com.bookinghotels.booking_hotels_api.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.locationtech.jts.geom.Point;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -19,9 +17,6 @@ public class HotelBranch {
     private Long id;
 
     private String  name;
-
-    @JsonIgnore
-    private Point location;
 
     private String address;
 

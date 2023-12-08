@@ -6,8 +6,7 @@ import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelBranchResp
 import com.bookinghotels.booking_hotels_api.models.dtos.response.HotelChainResponseDTO;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelBranch;
 import com.bookinghotels.booking_hotels_api.models.entities.HotelChain;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.io.ParseException;
+
 
 
 import java.util.List;
@@ -15,15 +14,13 @@ import java.util.List;
 public interface HotelBranchService {
     List<HotelBranch> findAll();
 
-    HotelBranch save(CreateHotelBranchDTO newHotelBranch) throws ParseException;
+    HotelBranch save(CreateHotelBranchDTO newHotelBranch);
 
     HotelBranch findById(Long id);
 
     HotelBranch deleteById(Long id);
 
     HotelBranch updateHotelBranch(Long id, UpdateHotelBranchDTO updateHotelBranchDTO);
-
-    Point createLocation(Double latitude, Double longitude) throws ParseException;
 
     HotelBranchResponseDTO convertToDTO(HotelBranch hotelBranch);
 

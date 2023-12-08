@@ -11,7 +11,6 @@ import com.bookinghotels.booking_hotels_api.services.IService.HotelBranchService
 import com.bookinghotels.booking_hotels_api.services.IService.HotelChainService;
 import com.bookinghotels.booking_hotels_api.services.IService.UserService;
 import com.bookinghotels.booking_hotels_api.utils.ResponseDTO;
-import org.locationtech.jts.io.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -167,7 +166,7 @@ public class AdminController {
     }
 
     @PostMapping("/hotel-branches")
-    public ResponseEntity<?> saveHotelBranch(@RequestBody CreateHotelBranchDTO newHotelBranch) throws ParseException {
+    public ResponseEntity<?> saveHotelBranch(@RequestBody CreateHotelBranchDTO newHotelBranch){
         HotelBranch hotelBranchCreated = hotelBranchService.save(newHotelBranch);
         if (hotelBranchCreated == null) {
             return ResponseEntity.internalServerError().body(new ResponseDTO<>(null, "Hubo un error"));

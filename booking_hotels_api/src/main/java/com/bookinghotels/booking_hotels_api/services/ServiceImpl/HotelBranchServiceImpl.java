@@ -11,15 +11,8 @@ import com.bookinghotels.booking_hotels_api.repositories.HotelBranchRepository;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelBranchService;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelBranchTypeService;
 import com.bookinghotels.booking_hotels_api.services.IService.HotelChainService;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKTReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +38,7 @@ public class HotelBranchServiceImpl implements HotelBranchService {
     }
 
     @Override
-    public HotelBranch save(CreateHotelBranchDTO newHotelBranchDTO) throws ParseException {
+    public HotelBranch save(CreateHotelBranchDTO newHotelBranchDTO){
         HotelBranch newHotelBranch = new HotelBranch();
         newHotelBranch.setAddress(newHotelBranchDTO.getAddress());
         newHotelBranch.setName(newHotelBranchDTO.getName());
@@ -53,8 +46,6 @@ public class HotelBranchServiceImpl implements HotelBranchService {
         Double longitude = newHotelBranchDTO.getLongitude();
         newHotelBranch.setCheckInTime(newHotelBranchDTO.getCheckInTime());
         newHotelBranch.setCheckOutTime(newHotelBranchDTO.getCheckOutTime());
-
-        newHotelBranch.setLocation(null/*createLocation(latitude,longitude)*/);
 
         HotelChain chain = hotelChainService.findById(newHotelBranchDTO.getHotelChainId());
         HotelBranchType branch = hotelBranchTypeService.findById(newHotelBranchDTO.getHotelBranchTypeId());
@@ -99,14 +90,6 @@ public class HotelBranchServiceImpl implements HotelBranchService {
         return hotelBranch;
     }
 
-    @Override
-    public Point createLocation(Double latitude, Double longitude) throws ParseException {
-        String  location2 =  "POINT (" + longitude + " " + latitude + ")" ;
-        Geometry point = new GeometryFactory().createPoint(new Coordinate(1,1));
-        Point location = ((Point)wktToGeometry(location2));
-        location.setSRID(4326);
-        return ((Point)wktToGeometry(location2));
-    }
 
     @Override
     public HotelBranchResponseDTO convertToDTO(HotelBranch hotelBranch) {
@@ -129,8 +112,5 @@ public class HotelBranchServiceImpl implements HotelBranchService {
         return hotelBranchResponseDTOS;
     }
 
-    public Geometry wktToGeometry(String wellKnownText) throws ParseException {
-        return new WKTReader().read(wellKnownText);
-    }
 
 }
