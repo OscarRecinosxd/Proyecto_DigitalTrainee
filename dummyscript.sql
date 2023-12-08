@@ -23,4 +23,5 @@ INSERT INTO users(email,first_name,last_name,password,phone,role_id,is_deleted) 
 ('oscarrecinos@gmail.com','Oscar','Recinos','1234','76202020',1,false);
 
 INSERT INTO hotel_branches(address,check_in_time,check_out_time,is_deleted,name,hotel_branch_type_id,hotel_chain_id) VALUES
-('Puerto de acajutla, playa los cobanos','11:00','13:00',false,'Salinitas',1,1)
+('Playa los cobanos','11:00','13:00',false,'Decameron',1,1)
+
