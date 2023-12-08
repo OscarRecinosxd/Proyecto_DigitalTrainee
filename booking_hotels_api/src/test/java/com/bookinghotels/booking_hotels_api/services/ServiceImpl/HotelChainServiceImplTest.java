@@ -22,47 +22,40 @@ class HotelChainServiceImplTest {
         HotelChainServiceImpl hotelChainService = new HotelChainServiceImpl(hotelChainRepository);
         List<HotelChain> allChains = hotelChainService.findAll();
         assertNotNull(allChains);
-        // Add more assertions as needed
     }
 
     @Test
     void save() {
         HotelChainServiceImpl hotelChainService = new HotelChainServiceImpl(hotelChainRepository);
         CreateUpdateHotelChainDTO newHotelChainDTO = new CreateUpdateHotelChainDTO();
-        // Set properties of newHotelChainDTO with test data
 
         HotelChain savedChain = hotelChainService.save(newHotelChainDTO);
         assertNotNull(savedChain);
-        // Add more assertions as needed
     }
 
     @Test
     void findById() {
         HotelChainServiceImpl hotelChainService = new HotelChainServiceImpl(hotelChainRepository);
-        Long chainId = 1L; // Replace with an actual chain ID from your test data
+        Long chainId = 1L;
         HotelChain foundChain = hotelChainService.findById(chainId);
         assertNotNull(foundChain);
-        // Add more assertions as needed
     }
 
     @Test
     void deleteById() {
         HotelChainServiceImpl hotelChainService = new HotelChainServiceImpl(hotelChainRepository);
-        Long chainIdToDelete = 1L; // Replace with an actual chain ID from your test data
+        Long chainIdToDelete = 1L;
         HotelChain deletedChain = hotelChainService.deleteById(chainIdToDelete);
         assertNotNull(deletedChain);
-        // Add more assertions as needed
     }
 
     @Test
     void updateHotelChain() {
         HotelChainServiceImpl hotelChainService = new HotelChainServiceImpl(hotelChainRepository);
-        Long chainIdToUpdate = 1L; // Replace with an actual chain ID from your test data
+        Long chainIdToUpdate = 1L;
         CreateUpdateHotelChainDTO updateHotelChainDTO = new CreateUpdateHotelChainDTO();
-        // Set properties of updateHotelChainDTO with test data
 
         HotelChain updatedChain = hotelChainService.updateHotelChain(chainIdToUpdate, updateHotelChainDTO);
         assertNotNull(updatedChain);
-        // Add more assertions as needed
     }
 }

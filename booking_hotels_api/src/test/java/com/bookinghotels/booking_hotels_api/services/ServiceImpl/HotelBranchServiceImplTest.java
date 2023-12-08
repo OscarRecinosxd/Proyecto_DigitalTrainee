@@ -33,7 +33,6 @@ class HotelBranchServiceImplTest {
         );
         List<HotelBranch> allBranches = hotelBranchService.findAll();
         assertNotNull(allBranches);
-        // Add more assertions as needed
     }
 
 
@@ -42,10 +41,9 @@ class HotelBranchServiceImplTest {
         HotelBranchServiceImpl hotelBranchService = new HotelBranchServiceImpl(
                 hotelBranchRepository, hotelChainService, hotelBranchTypeService
         );
-        Long branchId = 1L; // Replace with an actual branch ID from your test data
+        Long branchId = 1L;
         HotelBranch foundBranch = hotelBranchService.findById(branchId);
         assertNotNull(foundBranch);
-        // Add more assertions as needed
     }
 
     @Test
@@ -53,10 +51,9 @@ class HotelBranchServiceImplTest {
         HotelBranchServiceImpl hotelBranchService = new HotelBranchServiceImpl(
                 hotelBranchRepository, hotelChainService, hotelBranchTypeService
         );
-        Long branchIdToDelete = 1L; // Replace with an actual branch ID from your test data
+        Long branchIdToDelete = 1L;
         HotelBranch deletedBranch = hotelBranchService.deleteById(branchIdToDelete);
         assertNotNull(deletedBranch);
-        // Add more assertions as needed
     }
 
     @Test
@@ -64,12 +61,10 @@ class HotelBranchServiceImplTest {
         HotelBranchServiceImpl hotelBranchService = new HotelBranchServiceImpl(
                 hotelBranchRepository, hotelChainService, hotelBranchTypeService
         );
-        Long branchIdToUpdate = 1L; // Replace with an actual branch ID from your test data
+        Long branchIdToUpdate = 1L;
         UpdateHotelBranchDTO updateHotelBranchDTO = new UpdateHotelBranchDTO();
-        // Set properties of updateHotelBranchDTO with test data
 
         HotelBranch updatedBranch = hotelBranchService.updateHotelBranch(branchIdToUpdate, updateHotelBranchDTO);
         assertNotNull(updatedBranch);
-        // Add more assertions as needed
     }
 }

@@ -21,15 +21,13 @@ class HotelBranchTypeServiceImplTest {
         HotelBranchTypeServiceImpl hotelBranchTypeService = new HotelBranchTypeServiceImpl(hotelBranchTypeRepository);
         List<HotelBranchType> allBranchTypes = hotelBranchTypeService.findAll();
         assertNotNull(allBranchTypes);
-        // Add more assertions as needed
     }
 
     @Test
     void findById() {
         HotelBranchTypeServiceImpl hotelBranchTypeService = new HotelBranchTypeServiceImpl(hotelBranchTypeRepository);
-        Long typeId = 1L; // Replace with an actual type ID from your test data
+        Long typeId = 1L;
         HotelBranchType branchType = hotelBranchTypeService.findById(typeId);
         assertNotNull(branchType);
-        // Add more assertions as needed
     }
 }

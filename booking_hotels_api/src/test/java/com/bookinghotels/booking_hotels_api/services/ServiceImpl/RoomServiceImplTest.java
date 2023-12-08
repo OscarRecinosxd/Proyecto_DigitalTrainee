@@ -31,25 +31,22 @@ class RoomServiceImplTest {
         RoomServiceImpl roomService = new RoomServiceImpl(roomRepository, hotelBranchService, roomTypeService);
         List<Room> allRooms = roomService.findAll();
         assertNotNull(allRooms);
-        // Add more assertions as needed
     }
 
     @Test
     void findById() {
         RoomServiceImpl roomService = new RoomServiceImpl(roomRepository, hotelBranchService, roomTypeService);
-        Long roomId = 1L; // Replace with an actual room ID from your test data
+        Long roomId = 1L;
         Room foundRoom = roomService.findById(roomId);
         assertNotNull(foundRoom);
-        // Add more assertions as needed
     }
 
     @Test
     void deleteById() {
         RoomServiceImpl roomService = new RoomServiceImpl(roomRepository, hotelBranchService, roomTypeService);
-        Long roomIdToDelete = 1L; // Replace with an actual room ID from your test data
+        Long roomIdToDelete = 1L;
         Room deletedRoom = roomService.deleteById(roomIdToDelete);
         assertNotNull(deletedRoom);
-        // Add more assertions as needed
     }
 
 }

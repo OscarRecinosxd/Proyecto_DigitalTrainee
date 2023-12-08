@@ -19,7 +19,6 @@ class RoleServiceImplTest {
         RoleServiceImpl roleService = new RoleServiceImpl(roleRepository);
         Role adminRole = roleService.getAdminRole();
         assertNotNull(adminRole);
-        // Add more assertions as needed
     }
 
     @Test
@@ -27,7 +26,6 @@ class RoleServiceImplTest {
         RoleServiceImpl roleService = new RoleServiceImpl(roleRepository);
         Role clientRole = roleService.getClientRole();
         assertNotNull(clientRole);
-        // Add more assertions as needed
     }
 
     @Test
@@ -35,6 +33,5 @@ class RoleServiceImplTest {
         RoleServiceImpl roleService = new RoleServiceImpl(roleRepository);
         Role hotelOwnerRole = roleService.getHotelOwnerRole();
         assertNotNull(hotelOwnerRole);
-        // Add more assertions as needed
     }
 }

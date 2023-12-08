@@ -18,10 +18,8 @@ class InvoiceItemServiceImplTest {
     void create() {
         InvoiceItemServiceImpl invoiceItemService = new InvoiceItemServiceImpl(invoiceItemRepository);
         InvoiceItem newInvoiceItem = new InvoiceItem();
-        // Set properties of newInvoiceItem with test data
 
         InvoiceItem createdItem = invoiceItemService.create(newInvoiceItem);
         assertNotNull(createdItem);
-        // Add more assertions as needed
     }
 }

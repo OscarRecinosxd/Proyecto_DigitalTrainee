@@ -27,47 +27,40 @@ class UserServiceImplTest {
         UserServiceImpl userService = new UserServiceImpl(userRepository, roleService);
         List<User> allUsers = userService.findAll();
         assertNotNull(allUsers);
-        // Add more assertions as needed
     }
 
     @Test
     void save() {
         UserServiceImpl userService = new UserServiceImpl(userRepository, roleService);
         CreateUserDTO newUserDTO = new CreateUserDTO();
-        // Set properties of newUserDTO with test data
 
         User savedUser = userService.save(newUserDTO);
         assertNotNull(savedUser);
-        // Add more assertions as needed
     }
 
     @Test
     void findById() {
         UserServiceImpl userService = new UserServiceImpl(userRepository, roleService);
-        Long userId = 1L; // Replace with an actual user ID from your test data
+        Long userId = 1L;
         User foundUser = userService.findById(userId);
         assertNotNull(foundUser);
-        // Add more assertions as needed
     }
 
     @Test
     void deleteById() {
         UserServiceImpl userService = new UserServiceImpl(userRepository, roleService);
-        Long userIdToDelete = 1L; // Replace with an actual user ID from your test data
+        Long userIdToDelete = 1L;
         User deletedUser = userService.deleteById(userIdToDelete);
         assertNotNull(deletedUser);
-        // Add more assertions as needed
     }
 
     @Test
     void updateUser() {
         UserServiceImpl userService = new UserServiceImpl(userRepository, roleService);
-        Long userIdToUpdate = 1L; // Replace with an actual user ID from your test data
+        Long userIdToUpdate = 1L;
         UpdateUserDTO updateUserDTO = new UpdateUserDTO();
-        // Set properties of updateUserDTO with test data
 
         User updatedUser = userService.updateUser(userIdToUpdate, updateUserDTO);
         assertNotNull(updatedUser);
-        // Add more assertions as needed
     }
 }

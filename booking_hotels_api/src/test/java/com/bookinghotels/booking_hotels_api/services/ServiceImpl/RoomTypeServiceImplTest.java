@@ -17,9 +17,8 @@ class RoomTypeServiceImplTest {
     @Test
     void findById() {
         RoomTypeServiceImpl roomTypeService = new RoomTypeServiceImpl(roomTypeRepository);
-        Long roomTypeId = 1L; // Replace with an actual room type ID from your test data
+        Long roomTypeId = 1L;
         RoomType foundRoomType = roomTypeService.findById(roomTypeId);
         assertNotNull(foundRoomType);
-        // Add more assertions as needed
     }
 }
