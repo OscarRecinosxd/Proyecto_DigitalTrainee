@@ -1,8 +1,4 @@
 
-
-
-
-
 INSERT INTO public.roles (description,name) VALUES 
 ('Rol de admin','Admin'),
 ('Rol de cliente','Client'),
@@ -26,3 +22,5 @@ INSERT INTO room_types(description,is_deleted) VALUES
 INSERT INTO users(email,first_name,last_name,password,phone,role_id,is_deleted) VALUES
 ('oscarrecinos@gmail.com','Oscar','Recinos','1234','76202020',1,false);
 
+INSERT INTO hotel_branches(address,check_in_time,check_out_time,is_deleted,name,hotel_branch_type_id,hotel_chain_id) VALUES
+('Puerto de acajutla, playa los cobanos','11:00','13:00',false,'Salinitas',1,1)
